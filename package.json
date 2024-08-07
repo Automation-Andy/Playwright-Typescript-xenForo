@@ -12,7 +12,7 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
-    "check-typescript": "tsc --pretty --noEmit",
+    "tsc": "tsc --pretty --noEmit",
     "lint": "eslint --max-warnings=0 --fix **/*.ts",
     "pretty-quick": "pretty-quick",
     "lint-staged": "lint-staged",
@@ -20,7 +20,7 @@
   },
   "lint-staged": {
     "**/*.ts": [
-      "npm run check-typescript",
+      "npm run tsc",
       "npm run lint",
       "npm run pretty-quick"
     ]
