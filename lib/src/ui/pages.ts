@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
-import { Home } from './pages/home';
-import { LogIn } from './pages/login';
+import { Home } from '@ui/pages/home';
+import { LogIn } from '@ui/pages/login';
 
 export class Pages {
   constructor(private readonly page: Page) {}

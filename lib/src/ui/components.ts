@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
-import { NavBar } from './components/navBar';
-import { StaffBar } from './components/staffBar';
+import { NavBar } from '@ui/components/navBar';
+import { StaffBar } from '@ui/components/staffBar';
 
 export class Components {
   constructor(private readonly page: Page) {}
