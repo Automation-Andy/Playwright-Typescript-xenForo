@@ -1,26 +1,28 @@
 {
-  "name": "playwright-starter-project-typescript",
+  "name": "playwright-typescript-xenforo",
   "version": "1.0.0",
-  "description": "Starter project for Playwright using TypeScript.  Includes eslint, prettier, and husky pre-commit hooks for staged files.",
+  "description": "Playwright automation project with typescript to demonstrate tests against xenForo forum software",
   "keywords": [],
   "author": "Andy Gleed aka Automation Andy - andy@automationandy.net",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Automation-Andy/playwright-starter-project-typescript"
+    "url": "https://github.com/Automation-Andy/Playwright-Typescript-xenForo"
   },
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
+    "start": "ts-node -r tsconfig-paths/register",
     "tsc": "tsc --pretty --noEmit",
+    "build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
     "lint": "eslint --max-warnings=0 --fix **/*.ts",
     "pretty-quick": "pretty-quick",
-    "lint-staged": "lint-staged",
+    "lint-staged": "lint-staged -r",
     "prepare": "husky"
   },
   "lint-staged": {
     "**/*.ts": [
-      "npm run tsc",
+      "npm run build",
       "npm run lint",
       "npm run pretty-quick"
     ]
@@ -39,6 +41,7 @@
     "prettier": "^3.2.5",
     "pretty-quick": "^4.0.0",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.10",
     "typescript": "^5.5.4",
     "typescript-eslint": "^7.18.0"
   }

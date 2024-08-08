@@ -1,6 +1,6 @@
 import { test as base } from '@playwright/test';
-import { Users } from '../../lib/data/users';
-import { UI } from '../../lib/src/ui/ui';
+import { Users } from '@data/users';
+import { UI } from '@ui/ui';
 
 type MyFixtures = {
   ui: UI;

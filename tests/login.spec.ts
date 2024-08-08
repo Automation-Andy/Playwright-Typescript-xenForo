@@ -1,5 +1,5 @@
-import { test, expect } from './fixtures/base';
-import { User } from '../lib/src/enums/users';
+import { test, expect } from '@fixtures/base';
+import { User } from '@enums/users';
 
 test(`Log in with registered user by username and password`, async ({
   users,
