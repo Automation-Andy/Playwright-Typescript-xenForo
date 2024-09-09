@@ -15,11 +15,7 @@ export class Users {
     },
   ];
 
-  getUser(username: User): {
-    username: string;
-    email: string;
-    password: string;
-  } {
+  getUser(username: User): UserType {
     return this.users.find((user) => user.username === username);
   }
 }
