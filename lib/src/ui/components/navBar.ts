@@ -5,9 +5,8 @@ export class NavBar {
     navBar: this.page.locator(`.p-nav-list`),
     lnkLogIn: this.page.getByRole('link', { name: 'Log in' }),
     lnkRegister: this.page.getByRole('link', { name: 'Register' }),
-    lblLoggedInUser: this.page
-      .locator('.p-navgroup--member .p-navgroup-linkText')
-      .first(),
+    lblLoggedInUser: this.page.locator('.p-navgroup--member .p-navgroup-linkText').first(),
+    lnkSearch: this.page.locator(`.p-discovery`).getByRole('link', { name: 'Search' }),
   };
 
   constructor(private readonly page: Page) {}
@@ -20,7 +19,11 @@ export class NavBar {
     await this.locators.lnkLogIn.click();
   }
 
-  async register(): Promise<void> {
+  async clickRegister(): Promise<void> {
     await this.locators.lnkRegister.click();
+  }
+
+  async clickSearch(): Promise<void> {
+    await this.locators.lnkSearch.click();
   }
 }

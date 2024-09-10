@@ -8,6 +8,8 @@ export const NORMAL_USER_001_STORAGE_STATE = path.join(__dirname, '/.auth/normal
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
+  timeout: 5000,
+  expect: { timeout: 5000 },
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
