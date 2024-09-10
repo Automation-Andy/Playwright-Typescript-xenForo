@@ -1,5 +1,7 @@
 import { Page } from "@playwright/test";
-import { AdvancedSearchEverything } from "@ui/components/advancedSearchEverything";
+import { AdvancedSearchEverything, SearchParameters as SearchEverythingParams } from "@ui/components/advancedSearchEverything";
+import { AdvancedSearchThreads, SearchParameters as SearchThreadsParams } from "@ui/components/advancedSearchThreads";
+import { AdvancedSearchProfilePosts, SearchParameters as SearchProfilePostParams } from "@ui/components/advancedSearchProfilePosts";
 
 export class AdvancedSearch {
     
@@ -10,10 +12,23 @@ export class AdvancedSearch {
     }
 
     private readonly _searchEverything = new AdvancedSearchEverything(this.page);
+    private readonly _searchProfilePosts = new AdvancedSearchProfilePosts(this.page);
+    private readonly _searchThreads = new AdvancedSearchThreads(this.page);
+
     constructor(private page: Page) {}
     
-    async searchEverything(keywords: string, titlesOnly: boolean, postedBy: string, newerThan: string, olderThan: string): Promise<void> {
+    async searchEverything(params: SearchEverythingParams): Promise<void> {
         await this.locators.lnkSearchEverything.click();
-        await this._searchEverything.search(keywords, titlesOnly, postedBy, newerThan, olderThan);
+        await this._searchEverything.search(params);
+    }
+
+    async searchThreads(params: SearchThreadsParams): Promise<void> {  
+        await this.locators.lnkSearchThreads.click();
+        await this._searchThreads.search(params);
+    }
+
+    async searchProfilePosts(params: SearchProfilePostParams): Promise<void> {
+        await this.locators.lnkSearchProfilePosts.click();
+        await this._searchProfilePosts.search(params);
     }
 }

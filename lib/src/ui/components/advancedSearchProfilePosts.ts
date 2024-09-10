@@ -1,12 +1,14 @@
 import { Page } from "@playwright/test";
 
-export class AdvancedSearchEverything {
+export class AdvancedSearchProfilePosts {
   readonly locators = {
     txtKeywords: this.page.getByLabel('Keywords'),
-    chkSearchTitlesOnly: this.page.locator(`[name="c[title_only]"]`),
     txtPostedBy: this.page.getByLabel('Posted by'),
+    txtPostedOnProfileOfMember: this.page.getByLabel('Posted on the profile of'),
     txtNewerThan: this.page.getByLabel('Newer than'),
+    btnNewerThan: this.page.locator('dl').filter({ hasText: 'Newer than' }).locator('span'),
     txtOlderThan: this.page.getByLabel('Older than'),
+    btnOlderThan: this.page.locator('dl').filter({ hasText: 'Older than' }).locator('span'),
     btnSearch: this.page.getByRole('button', { name: 'Search' }),
   }
   
@@ -17,12 +19,12 @@ export class AdvancedSearchEverything {
       await this.setKeywords(params.keywords);
     }
 
-    if (params.searchTitlesOnly !== undefined) {
-      await this.setSearchTitlesOnly(params.searchTitlesOnly);
-    }
-
     if (params.postedBy !== undefined) {
       await this.setPostedBy(params.postedBy);
+    }
+
+    if (params.postedOnProfileOf !== undefined) {
+      await this.setPostedOnProfileOf(params.postedOnProfileOf);
     }
 
     if (params.newerThan !== undefined) {
@@ -40,12 +42,12 @@ export class AdvancedSearchEverything {
     await this.locators.txtKeywords.fill(keywords);
   }
 
-  async setSearchTitlesOnly(checked: boolean): Promise<void> {
-    await this.locators.chkSearchTitlesOnly.setChecked(checked);
-  }
-
   async setPostedBy(postedBy: string): Promise<void> {
     await this.locators.txtPostedBy.fill(postedBy);
+  }
+
+  async setPostedOnProfileOf(postedOnProfileOf: string): Promise<void> {
+    await this.locators.txtPostedOnProfileOfMember.fill(postedOnProfileOf);
   }
 
   async setNewerThan(newerThan: string): Promise<void> {
@@ -58,13 +60,13 @@ export class AdvancedSearchEverything {
 
   async clickSearch(): Promise<void> {
     await this.locators.btnSearch.click();
-  } 
+  }
 }
 
 export interface SearchParameters {
   keywords?: string;
-  searchTitlesOnly?: boolean;
   postedBy?: string;
+  postedOnProfileOf?: string;
   newerThan?: string;
   olderThan?: string;
 }
