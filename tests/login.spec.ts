@@ -7,8 +7,6 @@ test(`Log in with registered user by username and password`, async ({ users, ui 
   });
 
   await test.step(`Check we are logged in`, async () => {
-    await expect(ui.components.navBar.locators.lblLoggedInUser).toHaveText(
-      user.username,
-    );
+    await expect(ui.components.navigationBar.locators.lblLoggedInUser).toHaveText(user.username);
   });
 });

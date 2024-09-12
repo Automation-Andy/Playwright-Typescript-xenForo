@@ -1,17 +1,18 @@
-import { Page } from "@playwright/test";
+import { Page } from '@playwright/test';
 
 export class AdvancedSearchProfilePosts {
+  readonly container = this.page.locator(`.p-body-content`);
   readonly locators = {
-    txtKeywords: this.page.getByLabel('Keywords'),
-    txtPostedBy: this.page.getByLabel('Posted by'),
-    txtPostedOnProfileOfMember: this.page.getByLabel('Posted on the profile of'),
-    txtNewerThan: this.page.getByLabel('Newer than'),
-    btnNewerThan: this.page.locator('dl').filter({ hasText: 'Newer than' }).locator('span'),
-    txtOlderThan: this.page.getByLabel('Older than'),
-    btnOlderThan: this.page.locator('dl').filter({ hasText: 'Older than' }).locator('span'),
-    btnSearch: this.page.getByRole('button', { name: 'Search' }),
-  }
-  
+    txtKeywords: this.container.getByLabel('Keywords'),
+    txtPostedBy: this.container.getByLabel('Posted by'),
+    txtPostedOnProfileOfMember: this.container.getByLabel('Posted on the profile of'),
+    txtNewerThan: this.container.getByLabel('Newer than'),
+    btnNewerThan: this.container.locator('dl').filter({ hasText: 'Newer than' }).locator('span'),
+    txtOlderThan: this.container.getByLabel('Older than'),
+    btnOlderThan: this.container.locator('dl').filter({ hasText: 'Older than' }).locator('span'),
+    btnSearch: this.container.getByRole('button', { name: 'Search' }),
+  };
+
   constructor(private page: Page) {}
 
   async search(params: SearchParameters): Promise<void> {
@@ -34,7 +35,7 @@ export class AdvancedSearchProfilePosts {
     if (params.olderThan !== undefined) {
       await this.setOlderThan(params.olderThan);
     }
-  
+
     await this.clickSearch();
   }
 

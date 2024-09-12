@@ -1,15 +1,16 @@
-import { Page } from "@playwright/test";
+import { Page } from '@playwright/test';
 
 export class AdvancedSearchEverything {
+  readonly container = this.page.locator(`.p-body-content`);
   readonly locators = {
     txtKeywords: this.page.getByLabel('Keywords'),
-    chkSearchTitlesOnly: this.page.locator(`[name="c[title_only]"]`),
-    txtPostedBy: this.page.getByLabel('Posted by'),
-    txtNewerThan: this.page.getByLabel('Newer than'),
-    txtOlderThan: this.page.getByLabel('Older than'),
-    btnSearch: this.page.getByRole('button', { name: 'Search' }),
-  }
-  
+    chkSearchTitlesOnly: this.container.getByText('Search titles only'),
+    txtPostedBy: this.container.getByLabel('Posted by'),
+    txtNewerThan: this.container.getByLabel('Newer than'),
+    txtOlderThan: this.container.getByLabel('Older than'),
+    btnSearch: this.container.getByRole('button', { name: 'Search' }),
+  };
+
   constructor(private page: Page) {}
 
   async search(params: SearchParameters): Promise<void> {
@@ -32,7 +33,7 @@ export class AdvancedSearchEverything {
     if (params.olderThan !== undefined) {
       await this.setOlderThan(params.olderThan);
     }
-  
+
     await this.clickSearch();
   }
 
@@ -58,7 +59,7 @@ export class AdvancedSearchEverything {
 
   async clickSearch(): Promise<void> {
     await this.locators.btnSearch.click();
-  } 
+  }
 }
 
 export interface SearchParameters {
