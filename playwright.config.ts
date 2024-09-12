@@ -6,7 +6,6 @@ dotenv.config();
 export const NORMAL_USER_001_STORAGE_STATE = path.join(__dirname, '/.auth/normalUser001.json');
 
 export default defineConfig({
-  testDir: './tests',
   fullyParallel: true,
   timeout: 5000,
   expect: { timeout: 5000 },
@@ -14,9 +13,11 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: [['list'], ['html', { open: 'never' }]],
+  testDir: './tests',
   use: {
     baseURL: process.env.BASE_URL,
-    trace: 'on-first-retry',
+    trace: 'on',
+    screenshot: 'only-on-failure',
     headless: false,
   },
   projects: [
@@ -27,9 +28,10 @@ export default defineConfig({
     },
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'],
+      use: {
+        ...devices['Desktop Chrome'],
         storageState: NORMAL_USER_001_STORAGE_STATE,
-       },
+      },
       dependencies: ['setup'],
     },
     {

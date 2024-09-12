@@ -5,7 +5,7 @@ export class Search {
 
   readonly locators = {
     txtSearch: this.container.getByPlaceholder('Search…'),
-    chkSearchTitlesOnly: this.container.getByRole('checkbox', { name: 'Search titles only' }),
+    chkSearchTitlesOnly: this.container.getByText('Search titles only'),
     txtByMember: this.container.getByPlaceholder('Member'),
     btnSearch: this.container.getByRole('button', { name: 'Search' }),
     btnAdvancedSearch: this.container.getByRole('link', { name: 'Advanced search…' }),
@@ -30,5 +30,9 @@ export class Search {
 
   async setByMember(member: string): Promise<void> {
     await this.locators.txtByMember.fill(member);
+  }
+
+  async clickAdvancedSearch(): Promise<void> {
+    await this.locators.btnAdvancedSearch.click();
   }
 }

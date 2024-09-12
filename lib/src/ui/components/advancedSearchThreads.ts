@@ -1,25 +1,26 @@
 import { Page } from '@playwright/test';
 
 export class AdvancedSearchThreads {
+  readonly container = this.page.locator(`.p-body-content`);
   readonly locators = {
-    txtKeywords: this.page.getByLabel('Keywords'),
-    chkSearchTitlesOnly: this.page.locator(`[name="c[title_only]"]`),
-    txtPostedBy: this.page.getByLabel('Posted by'),
-    txtNewerThan: this.page.getByLabel('Newer than'),
-    btnNewerThan: this.page.locator('dl').filter({ hasText: 'Newer than' }).locator('span'),
-    txtOlderThan: this.page.getByLabel('Older than'),
-    btnOlderThan: this.page.locator('dl').filter({ hasText: 'Older than' }).locator('span'),
-    txtMinNumberReplies: this.page.getByLabel('Minimum number of replies'),
-    btnAddMinNumberReplies: this.page.getByLabel('Increase'),
-    btnMinusMinNumberReplies: this.page.getByLabel('Decrease'),
-    cmbSearchInForums: this.page.locator(`[name='c[nodes][]']`),
-    chkSearchSubForums: this.page.locator(`[name='c[child_nodes]'`),
-    optOrderByDate: this.page.locator('label').filter({ hasText: 'Date' }).locator('i'),
-    optOrderByMostReplies: this.page.locator('label').filter({ hasText: 'Most replies' }).locator('i'),
-    chkDisplayResultsAsThreads: this.page.locator(`[name='grouped']`),
-    btnSearch: this.page.getByRole('button', { name: 'Search' }),
+    txtKeywords: this.container.getByLabel('Keywords'),
+    chkSearchTitlesOnly: this.container.locator(`[name="c[title_only]"]`),
+    txtPostedBy: this.container.getByLabel('Posted by'),
+    txtNewerThan: this.container.getByLabel('Newer than'),
+    btnNewerThan: this.container.locator('dl').filter({ hasText: 'Newer than' }).locator('span'),
+    txtOlderThan: this.container.getByLabel('Older than'),
+    btnOlderThan: this.container.locator('dl').filter({ hasText: 'Older than' }).locator('span'),
+    txtMinNumberReplies: this.container.getByLabel('Minimum number of replies'),
+    btnAddMinNumberReplies: this.container.getByLabel('Increase'),
+    btnMinusMinNumberReplies: this.container.getByLabel('Decrease'),
+    cmbSearchInForums: this.container.locator(`[name='c[nodes][]']`),
+    chkSearchSubForums: this.container.locator(`[name='c[child_nodes]'`),
+    optOrderByDate: this.container.locator('label').filter({ hasText: 'Date' }).locator('i'),
+    optOrderByMostReplies: this.container.locator('label').filter({ hasText: 'Most replies' }).locator('i'),
+    chkDisplayResultsAsThreads: this.container.locator(`[name='grouped']`),
+    btnSearch: this.container.getByRole('button', { name: 'Search' }),
   };
-  
+
   constructor(private page: Page) {}
 
   async search(params: SearchParameters): Promise<void> {
@@ -61,7 +62,6 @@ export class AdvancedSearchThreads {
       } else {
         await this.setOrderByMostReplies();
       }
-    
     }
     if (params.displayResultsAsThreads !== undefined) {
       await this.setDisplayResultsAsThreads(params.displayResultsAsThreads);

@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 
-export class NavBar {
+export class NavigationBar {
   readonly locators = {
     navBar: this.page.locator(`.p-nav-list`),
     lnkLogIn: this.page.getByRole('link', { name: 'Log in' }),
