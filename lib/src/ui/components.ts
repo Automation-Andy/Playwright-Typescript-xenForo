@@ -4,6 +4,7 @@ import { StaffBar } from '@ui/components/staffBar';
 import { ForumStatistics } from '@ui/components/forumStatistics';
 import { Search } from '@ui/components/search';
 import { AdvancedSearch } from '@ui/components/advancedSearch';
+import { Editor } from '@ui/components/editor';
 
 export class Components {
   constructor(private readonly page: Page) {}
@@ -13,4 +14,5 @@ export class Components {
   forumStatistics = new ForumStatistics(this.page);
   search = new Search(this.page);
   advancedSearch = new AdvancedSearch(this.page);
+  editor = new Editor(this.page);
 }
