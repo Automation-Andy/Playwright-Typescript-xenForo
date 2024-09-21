@@ -13,6 +13,12 @@ export class PostThread {
   };
   constructor(private readonly page: Page) {}
 
+  async createThread(title: string, content: string) {
+    await this.setThreadTitle(title);
+    await this._editor.setContent(content);
+    await this.locators.btnPostThread.click();
+  }
+
   async setThreadTitle(title: string) {
     await this.locators.txtThreadTitle.fill(title);
   }

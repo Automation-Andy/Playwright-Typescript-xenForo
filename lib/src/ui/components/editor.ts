@@ -2,11 +2,18 @@ import { Page } from '@playwright/test';
 
 export class Editor {
   private readonly _toolbar = new Toolbar(this.page);
+  readonly locators = {
+    txtEditor: this.page.getByRole('paragraph'),
+  };
 
   constructor(private readonly page: Page) {}
 
   get toolbar() {
     return this._toolbar;
+  }
+
+  async setContent(content: string) {
+    await this.locators.txtEditor.fill(content);
   }
 }
 
