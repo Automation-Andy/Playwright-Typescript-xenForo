@@ -19,7 +19,6 @@ export class Editor {
 
 class Toolbar {
   readonly locators = {
-    txtEditor: this.page.getByRole('paragraph'),
     btnRemoveFormatting: this.page.getByRole('button', { name: 'Remove formatting' }),
     btnBold: this.page.getByRole('button', { name: 'Bold' }),
     btnItalic: this.page.getByRole('button', { name: 'Italic' }),
