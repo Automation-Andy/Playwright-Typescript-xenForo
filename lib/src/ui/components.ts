@@ -5,6 +5,7 @@ import { ForumStatistics } from '@ui/components/forumStatistics';
 import { Search } from '@ui/components/search';
 import { AdvancedSearch } from '@ui/components/advancedSearch';
 import { Editor } from '@ui/components/editor';
+import { InlineModeratorBar } from '@ui/components/inlineModeratorBar';
 
 export class Components {
   constructor(private readonly page: Page) {}
@@ -15,4 +16,5 @@ export class Components {
   search = new Search(this.page);
   advancedSearch = new AdvancedSearch(this.page);
   editor = new Editor(this.page);
+  inlineModeratorBar = new InlineModeratorBar(this.page);
 }
