@@ -30,3 +30,17 @@ test(`creating a thread with a poll`, async ({ page, ui }) => {
   await ui.pages.thread.poll.clickPollOption('long');
   await ui.pages.thread.poll.clickCastVote();
 });
+
+test(`check using navigation component`, async ({ ui }) => {
+  await ui.components.navigationBar.clickNavigationLink('Home');
+  await expect(ui.components.navigationBar.selectedNavigationLink).toHaveText('Forums');
+
+  await ui.components.navigationBar.clickNavigationLink('Forums');
+  await expect(ui.components.navigationBar.selectedNavigationLink).toHaveText('Forums');
+
+  await ui.components.navigationBar.clickNavigationLink("What's new");
+  await expect(ui.components.navigationBar.selectedNavigationLink).toHaveText(`What's new`);
+
+  await ui.components.navigationBar.clickNavigationLink('Members');
+  await expect(ui.components.navigationBar.selectedNavigationLink).toHaveText('Members');
+});
