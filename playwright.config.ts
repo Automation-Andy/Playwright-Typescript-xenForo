@@ -13,12 +13,12 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: [['list'], ['html', { open: 'never' }]],
-
   use: {
     baseURL: process.env.BASE_URL,
     trace: 'on',
     screenshot: 'only-on-failure',
     headless: false,
+    actionTimeout: 5000,
   },
   projects: [
     {
