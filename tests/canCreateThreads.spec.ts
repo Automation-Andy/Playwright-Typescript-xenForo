@@ -1,5 +1,28 @@
 import { expect, test } from '@fixtures/base';
 
+test(`Testing creating a thread and deleting it`, async ({ page, ui }) => {
+  await ui.pages.home.clickPostThread();
+  await expect(page.getByText('Post thread in...')).toBeVisible();
+  await ui.popups.postThreadIn.clickThreadDestination('Main category', 'Main forum');
+
+  await ui.pages.postDiscussionThread.create('Thread title', 'Thread content');
+  await expect(ui.pages.thread.getHeading()).toHaveText('Thread title');
+  await expect(ui.pages.thread.getPosts()).toHaveCount(1);
+
+  await ui.components.breadcrumb.clickBreadcrumbItem('Main forum');
+  await expect(page.getByRole('heading', { name: 'Main forum' })).toBeVisible();
+
+  await ui.components.inlineModerationTop.clickModeration();
+  await ui.components.inlineModerationBar.setSelectAll(true);
+  await ui.components.inlineModerationBar.selectAction('Delete threads…');
+  await ui.components.inlineModerationBar.clickGo();
+
+  await ui.popups.inlineModerationDeleteThreads.clickPermanentlyDelete();
+  await ui.popups.inlineModerationDeleteThreads.clickDelete();
+
+  await expect(page.getByText('There are no threads in this forum.')).toBeVisible();
+});
+
 test(`Testing creating a thread discussion`, async ({ page, ui }) => {
   await ui.pages.home.clickPostThread();
   await expect(page.getByText('Post thread in...')).toBeVisible();

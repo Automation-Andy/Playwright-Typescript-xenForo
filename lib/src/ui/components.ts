@@ -5,7 +5,9 @@ import { ForumStatistics } from '@ui/components/forumStatistics';
 import { Search } from '@ui/components/search';
 import { AdvancedSearch } from '@ui/components/advancedSearch';
 import { Editor } from '@ui/components/editor';
-import { InlineModeratorBar } from '@ui/components/inlineModeratorBar';
+import { InlineModerationBar } from '@ui/components/inlineModerationBar';
+import { Breadcrumb } from '@ui/components/breadcrumb';
+import { InlineModerationTop } from '@ui/components/inlineModerationTop';
 
 export class Components {
   constructor(private readonly page: Page) {}
@@ -16,5 +18,7 @@ export class Components {
   search = new Search(this.page);
   advancedSearch = new AdvancedSearch(this.page);
   editor = new Editor(this.page);
-  inlineModeratorBar = new InlineModeratorBar(this.page);
+  inlineModerationTop = new InlineModerationTop(this.page);
+  inlineModerationBar = new InlineModerationBar(this.page);
+  breadcrumb = new Breadcrumb(this.page);
 }

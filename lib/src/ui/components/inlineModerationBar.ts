@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 
-export class InlineModeratorBar {
+export class InlineModerationBar {
   private readonly _container = this.page.locator('.inline-moderator-bar');
   readonly _locators = {
     chkSelectAll: this._container.getByText('Select all', { exact: true }),
