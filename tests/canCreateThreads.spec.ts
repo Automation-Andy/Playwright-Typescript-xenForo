@@ -1,6 +1,12 @@
 import { expect, test } from '@fixtures/base';
+import { ModerateThreadsActions } from '@ui/components/inlineModerationBar';
 
+test.use({ storageState: { cookies: [], origins: [] } });
 test(`Testing creating a thread and deleting it`, async ({ page, ui }) => {
+  await ui.components.navigationBar.clickLogIn();
+  await ui.pages.login.loginAs(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
+  await expect(ui.components.navigationBar.locators.lblLoggedInUser).toHaveText(process.env.ADMIN_USER);
+
   await ui.pages.home.clickPostThread();
   await expect(page.getByText('Post thread in...')).toBeVisible();
   await ui.popups.postThreadIn.clickThreadDestination('Main category', 'Main forum');
@@ -13,9 +19,7 @@ test(`Testing creating a thread and deleting it`, async ({ page, ui }) => {
   await expect(page.getByRole('heading', { name: 'Main forum' })).toBeVisible();
 
   await ui.components.inlineModerationTop.clickModeration();
-  await ui.components.inlineModerationBar.setSelectAll(true);
-  await ui.components.inlineModerationBar.selectAction('Delete threads…');
-  await ui.components.inlineModerationBar.clickGo();
+  await ui.components.inlineModerationBar.moderateThreads(true, ModerateThreadsActions.DeleteThreads);
 
   await ui.popups.inlineModerationDeleteThreads.clickPermanentlyDelete();
   await ui.popups.inlineModerationDeleteThreads.clickDelete();
