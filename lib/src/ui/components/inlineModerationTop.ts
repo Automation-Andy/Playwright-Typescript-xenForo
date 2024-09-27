@@ -1,12 +1,16 @@
 import { Page } from '@playwright/test';
 
 export class InlineModerationTop {
-  readonly _locators = {
-    btnModeration: this.page.getByRole('button', { name: 'Moderation' }),
-    btnMarkRead: this.page.getByRole('link', { name: 'Mark read' }),
-    btnWatch: this.page.getByRole('link', { name: 'Watch', exact: true }),
+  private readonly _locators = {
+    btnModeration: this._page.getByRole('button', { name: 'Moderation' }),
+    btnMarkRead: this._page.getByRole('link', { name: 'Mark read' }),
+    btnWatch: this._page.getByRole('link', { name: 'Watch', exact: true }),
   };
-  constructor(private readonly page: Page) {}
+  constructor(private readonly _page: Page) {}
+
+  get locators() {
+    return this._locators;
+  }
 
   async clickModeration() {
     await this._locators.btnModeration.click();

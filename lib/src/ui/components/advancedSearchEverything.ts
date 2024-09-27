@@ -1,17 +1,21 @@
 import { Page } from '@playwright/test';
 
 export class AdvancedSearchEverything {
-  readonly container = this.page.locator(`.p-body-content`);
-  readonly locators = {
-    txtKeywords: this.page.getByLabel('Keywords'),
-    chkSearchTitlesOnly: this.container.getByText('Search titles only'),
-    txtPostedBy: this.container.getByLabel('Posted by'),
-    txtNewerThan: this.container.getByLabel('Newer than'),
-    txtOlderThan: this.container.getByLabel('Older than'),
-    btnSearch: this.container.getByRole('button', { name: 'Search' }),
+  private readonly _container = this._page.locator(`.p-body-content`);
+  private readonly _locators = {
+    txtKeywords: this._page.getByLabel('Keywords'),
+    chkSearchTitlesOnly: this._container.getByText('Search titles only'),
+    txtPostedBy: this._container.getByLabel('Posted by'),
+    txtNewerThan: this._container.getByLabel('Newer than'),
+    txtOlderThan: this._container.getByLabel('Older than'),
+    btnSearch: this._container.getByRole('button', { name: 'Search' }),
   };
 
-  constructor(private page: Page) {}
+  constructor(private _page: Page) {}
+
+  get locators() {
+    return this._locators;
+  }
 
   async search(params: SearchParameters): Promise<void> {
     if (params.keywords !== undefined) {
@@ -38,27 +42,27 @@ export class AdvancedSearchEverything {
   }
 
   async setKeywords(keywords: string): Promise<void> {
-    await this.locators.txtKeywords.fill(keywords);
+    await this._locators.txtKeywords.fill(keywords);
   }
 
   async setSearchTitlesOnly(checked: boolean): Promise<void> {
-    await this.locators.chkSearchTitlesOnly.setChecked(checked);
+    await this._locators.chkSearchTitlesOnly.setChecked(checked);
   }
 
   async setPostedBy(postedBy: string): Promise<void> {
-    await this.locators.txtPostedBy.fill(postedBy);
+    await this._locators.txtPostedBy.fill(postedBy);
   }
 
   async setNewerThan(newerThan: string): Promise<void> {
-    await this.locators.txtNewerThan.fill(newerThan);
+    await this._locators.txtNewerThan.fill(newerThan);
   }
 
   async setOlderThan(olderThan: string): Promise<void> {
-    await this.locators.txtOlderThan.fill(olderThan);
+    await this._locators.txtOlderThan.fill(olderThan);
   }
 
   async clickSearch(): Promise<void> {
-    await this.locators.btnSearch.click();
+    await this._locators.btnSearch.click();
   }
 }
 

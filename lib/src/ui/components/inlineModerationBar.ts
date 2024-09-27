@@ -1,14 +1,18 @@
 import { expect, Page } from '@playwright/test';
 
 export class InlineModerationBar {
-  private readonly _container = this.page.locator('.inlineModBar');
-  readonly _locators = {
+  private readonly _container = this._page.locator('.inlineModBar');
+  private readonly _locators = {
     lblTitle: this._container.locator('li').first(),
     chkSelectAll: this._container.getByText('Select all', { exact: true }),
     cmbChooseActon: this._container.locator('select'),
-    btnGo: this.page.getByRole('button', { name: 'Go' }),
+    btnGo: this._page.getByRole('button', { name: 'Go' }),
   };
-  constructor(private readonly page: Page) {}
+  constructor(private readonly _page: Page) {}
+
+  get locators() {
+    return this._locators;
+  }
 
   async moderateThreads(selectAll: boolean, action: ModerateThreadsActions) {
     await expect(this._locators.lblTitle).toHaveText('Threads (0)');

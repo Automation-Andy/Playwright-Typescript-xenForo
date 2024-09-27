@@ -1,51 +1,55 @@
-import { Page } from "@playwright/test";
+import { Page } from '@playwright/test';
 
 export class LogIn {
-    private readonly dialog = this.page.locator(`.overlay-container`);
-    readonly locators = {
-        fields: {
-            username: this.dialog.getByLabel('Your name or email address'),
-            password: this.dialog.getByLabel('Password'),
-        },
-        checkboxes: {
-            stayLoggedIn: this.dialog.locator('label').filter({ hasText: 'Stay logged in' }).locator('i'),
-        },
-        buttons: {
-            logIn: this.dialog.getByRole('button', { name: 'Log in' }),
-            register: this.dialog.getByRole('link', { name: 'Register now' }),
-            closeX: this.dialog.getByRole('button', { name: 'Close' }),
-        },
-        links: {
-            forgotPassword: this.dialog.getByRole('link', { name: 'Forgot your password?' }),
-        },    
-    }
+  private readonly _dialog = this._page.locator(`.overlay-container`);
+  private readonly _locators = {
+    fields: {
+      username: this._dialog.getByLabel('Your name or email address'),
+      password: this._dialog.getByLabel('Password'),
+    },
+    checkboxes: {
+      stayLoggedIn: this._dialog.locator('label').filter({ hasText: 'Stay logged in' }).locator('i'),
+    },
+    buttons: {
+      logIn: this._dialog.getByRole('button', { name: 'Log in' }),
+      register: this._dialog.getByRole('link', { name: 'Register now' }),
+      closeX: this._dialog.getByRole('button', { name: 'Close' }),
+    },
+    links: {
+      forgotPassword: this._dialog.getByRole('link', { name: 'Forgot your password?' }),
+    },
+  };
 
-    constructor(private readonly page: Page) {}
+  constructor(private readonly _page: Page) {}
 
-    async loginAs(username: string, password: string, stayLoggedIn = false): Promise<void> {
-        await this.setUserNameOrEmail(username);
-        await this.setPassword(password);   
-        await this.checkStayLoggedIn(stayLoggedIn);
-        await this.clickLogIn();
-    }
+  get locators() {
+    return this._locators;
+  }
 
-    async setUserNameOrEmail(username: string): Promise<void> { 
-        await this.locators.fields.username.fill(username);
-    }
+  async loginAs(username: string, password: string, stayLoggedIn = false): Promise<void> {
+    await this.setUserNameOrEmail(username);
+    await this.setPassword(password);
+    await this.checkStayLoggedIn(stayLoggedIn);
+    await this.clickLogIn();
+  }
 
-    async setPassword(password: string): Promise<void> {
-        await this.locators.fields.password.fill(password);
-    }
+  async setUserNameOrEmail(username: string): Promise<void> {
+    await this._locators.fields.username.fill(username);
+  }
 
-    async clickLogIn(): Promise<void> {
-        await this.locators.buttons.logIn.click();
-    }
+  async setPassword(password: string): Promise<void> {
+    await this._locators.fields.password.fill(password);
+  }
 
-    async clickRegister(): Promise<void> {
-        await this.locators.buttons.register.click();
-    }
+  async clickLogIn(): Promise<void> {
+    await this._locators.buttons.logIn.click();
+  }
 
-    async checkStayLoggedIn(checked: boolean): Promise<void> {
-        await this.locators.checkboxes.stayLoggedIn.setChecked(checked);
-    }
+  async clickRegister(): Promise<void> {
+    await this._locators.buttons.register.click();
+  }
+
+  async checkStayLoggedIn(checked: boolean): Promise<void> {
+    await this._locators.checkboxes.stayLoggedIn.setChecked(checked);
+  }
 }

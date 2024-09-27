@@ -1,7 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 import { Poll } from '@ui/components/poll';
 
-export class Thread {
+export class ThreadView {
   readonly locators = {
     heading: this.page.locator(`.p-title`).getByRole('heading'),
     posts: this.page.locator('.message--post'),

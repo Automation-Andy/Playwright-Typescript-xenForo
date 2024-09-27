@@ -1,8 +1,8 @@
 import { Locator, Page } from '@playwright/test';
 
 export class InlineModerationDeleteThreads {
-  private readonly _container = this.page.locator('.overlay');
-  readonly _locators = {
+  private readonly _container = this._page.locator('.overlay');
+  private readonly _locators = {
     title: this._container.locator(`.overlay-title`),
     optRemoveFromPublicView: this._container
       .locator('label')
@@ -18,7 +18,11 @@ export class InlineModerationDeleteThreads {
     btnDelete: this._container.getByRole('button', { name: 'Delete' }),
   };
 
-  constructor(private readonly page: Page) {}
+  constructor(private readonly _page: Page) {}
+
+  get locators() {
+    return this._locators;
+  }
 
   async removeFromPublicView(reason = '', notifyThreadStarter = false, notifyReason = '') {
     await this.clickRemoveFromPublicView();

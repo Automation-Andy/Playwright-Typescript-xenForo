@@ -2,29 +2,54 @@ import { expect, test } from '@fixtures/base';
 import { ModerateThreadsActions } from '@ui/components/inlineModerationBar';
 
 test.use({ storageState: { cookies: [], origins: [] } });
+test('Navigate to forum view and verify forum heading', async ({ ui }) => {
+  await test.step(`Log in`, async () => {
+    await ui.components.navigationBar.clickLogIn();
+    await ui.pages.login.loginAs(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
+    await expect(ui.components.navigationBar.locators.lblLoggedInUser).toHaveText(process.env.ADMIN_USER);
+  });
+
+  await test.step(`Goto forum Main forum`, async () => {
+    await ui.pages.home.gotoForum('Main category', 'Main forum');
+    await expect(ui.pages.forumView.getThreads()).toHaveCount(1);
+    await expect(ui.pages.forumView.getHeading()).toHaveText('Main forum');
+  });
+});
+
+test.use({ storageState: { cookies: [], origins: [] } });
 test(`Testing creating a thread and deleting it`, async ({ page, ui }) => {
-  await ui.components.navigationBar.clickLogIn();
-  await ui.pages.login.loginAs(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
-  await expect(ui.components.navigationBar.locators.lblLoggedInUser).toHaveText(process.env.ADMIN_USER);
+  await test.step(`Log in`, async () => {
+    await ui.components.navigationBar.clickLogIn();
+    await ui.pages.login.loginAs(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
+    await expect(ui.components.navigationBar.locators.lblLoggedInUser).toHaveText(process.env.ADMIN_USER);
+  });
 
-  await ui.pages.home.clickPostThread();
-  await expect(page.getByText('Post thread in...')).toBeVisible();
-  await ui.popups.postThreadIn.clickThreadDestination('Main category', 'Main forum');
+  await test.step(`Navigate to post thread in main forum`, async () => {
+    await ui.pages.home.clickPostThread();
+    await expect(page.getByText('Post thread in...')).toBeVisible();
+    await ui.popups.postThreadIn.clickThreadDestination('Main category', 'Main forum');
+  });
 
-  await ui.pages.postDiscussionThread.create('Thread title', 'Thread content');
-  await expect(ui.pages.thread.getHeading()).toHaveText('Thread title');
-  await expect(ui.pages.thread.getPosts()).toHaveCount(1);
+  await test.step(`Post a thread`, async () => {
+    await ui.pages.postDiscussionThread.create('Thread title', 'Thread content');
+    await expect(ui.pages.threadView.getHeading()).toHaveText('Thread title');
+    await expect(ui.pages.threadView.getPosts()).toHaveCount(1);
+  });
 
-  await ui.components.breadcrumb.clickBreadcrumbItem('Main forum');
-  await expect(page.getByRole('heading', { name: 'Main forum' })).toBeVisible();
+  await test.step(`Go back to Main forum and use mod tools to permanently delete the thread`, async () => {
+    await ui.components.breadcrumb.clickBreadcrumbItem('Main forum');
+    await expect(page.getByRole('heading', { name: 'Main forum' })).toBeVisible();
 
-  await ui.components.inlineModerationTop.clickModeration();
-  await ui.components.inlineModerationBar.moderateThreads(true, ModerateThreadsActions.DeleteThreads);
+    await ui.components.inlineModerationTop.clickModeration();
+    await ui.components.inlineModerationBar.moderateThreads(true, ModerateThreadsActions.DeleteThreads);
 
-  await ui.popups.inlineModerationDeleteThreads.clickPermanentlyDelete();
-  await ui.popups.inlineModerationDeleteThreads.clickDelete();
+    await ui.popups.inlineModerationDeleteThreads.clickPermanentlyDelete();
+    await ui.popups.inlineModerationDeleteThreads.clickDelete();
+  });
 
-  await expect(page.getByText('There are no threads in this forum.')).toBeVisible();
+  await test.step(`Verify new threads exist in main forum`, async () => {
+    await expect(page.getByText('There are no threads in this forum.')).toBeVisible();
+  });
 });
 
 test(`Testing creating a thread discussion`, async ({ page, ui }) => {
@@ -33,8 +58,8 @@ test(`Testing creating a thread discussion`, async ({ page, ui }) => {
   await ui.popups.postThreadIn.clickThreadDestination('Main category', 'Main forum');
 
   await ui.pages.postDiscussionThread.create('Thread title', 'Thread content');
-  await expect(ui.pages.thread.getHeading()).toHaveText('Thread title');
-  await expect(ui.pages.thread.getPosts()).toHaveCount(1);
+  await expect(ui.pages.threadView.getHeading()).toHaveText('Thread title');
+  await expect(ui.pages.threadView.getPosts()).toHaveCount(1);
 });
 
 test(`creating a thread with a poll`, async ({ page, ui }) => {
@@ -50,12 +75,12 @@ test(`creating a thread with a poll`, async ({ page, ui }) => {
     'single',
   );
 
-  await expect(ui.pages.thread.getHeading()).toHaveText('another thread');
-  await expect(ui.pages.thread.getPosts()).toHaveCount(1);
+  await expect(ui.pages.threadView.getHeading()).toHaveText('another thread');
+  await expect(ui.pages.threadView.getPosts()).toHaveCount(1);
 
-  await ui.pages.thread.poll.clickPollOption('short');
-  await ui.pages.thread.poll.clickPollOption('long');
-  await ui.pages.thread.poll.clickCastVote();
+  await ui.pages.threadView.poll.clickPollOption('short');
+  await ui.pages.threadView.poll.clickPollOption('long');
+  await ui.pages.threadView.poll.clickCastVote();
 });
 
 test(`check using navigation component`, async ({ ui }) => {

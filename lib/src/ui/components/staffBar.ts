@@ -1,10 +1,14 @@
 import { Page } from '@playwright/test';
 
 export class StaffBar {
-  readonly locators = {
+  private readonly _locators = {
     links: {
-      admin: this.page.getByRole('link', { name: 'Admin' }),
+      admin: this._page.getByRole('link', { name: 'Admin' }),
     },
   };
-  constructor(private readonly page: Page) {}
+  constructor(private readonly _page: Page) {}
+
+  get locators() {
+    return this._locators;
+  }
 }
