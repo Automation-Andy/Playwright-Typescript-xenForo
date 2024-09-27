@@ -1,13 +1,17 @@
 import { Page } from '@playwright/test';
 
 export class Breadcrumb {
-  readonly locators = {
-    breadcrumb: this.page.locator('.p-breadcrumbs'),
+  private readonly _locators = {
+    breadcrumb: this._page.locator('.p-breadcrumbs'),
   };
 
-  constructor(private readonly page: Page) {}
+  constructor(private readonly _page: Page) {}
+
+  get locators() {
+    return this._locators;
+  }
 
   async clickBreadcrumbItem(item: string) {
-    await this.locators.breadcrumb.getByRole('link', { name: item }).first().click();
+    await this._locators.breadcrumb.getByRole('link', { name: item }).first().click();
   }
 }

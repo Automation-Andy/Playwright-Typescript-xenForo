@@ -1,27 +1,27 @@
 import { Page } from '@playwright/test';
 
 export class AdvancedSearchThreads {
-  readonly container = this.page.locator(`.p-body-content`);
-  readonly locators = {
-    txtKeywords: this.container.getByLabel('Keywords'),
-    chkSearchTitlesOnly: this.container.locator(`[name="c[title_only]"]`),
-    txtPostedBy: this.container.getByLabel('Posted by'),
-    txtNewerThan: this.container.getByLabel('Newer than'),
-    btnNewerThan: this.container.locator('dl').filter({ hasText: 'Newer than' }).locator('span'),
-    txtOlderThan: this.container.getByLabel('Older than'),
-    btnOlderThan: this.container.locator('dl').filter({ hasText: 'Older than' }).locator('span'),
-    txtMinNumberReplies: this.container.getByLabel('Minimum number of replies'),
-    btnAddMinNumberReplies: this.container.getByLabel('Increase'),
-    btnMinusMinNumberReplies: this.container.getByLabel('Decrease'),
-    cmbSearchInForums: this.container.locator(`[name='c[nodes][]']`),
-    chkSearchSubForums: this.container.locator(`[name='c[child_nodes]'`),
-    optOrderByDate: this.container.locator('label').filter({ hasText: 'Date' }).locator('i'),
-    optOrderByMostReplies: this.container.locator('label').filter({ hasText: 'Most replies' }).locator('i'),
-    chkDisplayResultsAsThreads: this.container.locator(`[name='grouped']`),
-    btnSearch: this.container.getByRole('button', { name: 'Search' }),
+  private readonly _container = this._page.locator(`.p-body-content`);
+  private readonly _locators = {
+    txtKeywords: this._container.getByLabel('Keywords'),
+    chkSearchTitlesOnly: this._container.locator(`[name="c[title_only]"]`),
+    txtPostedBy: this._container.getByLabel('Posted by'),
+    txtNewerThan: this._container.getByLabel('Newer than'),
+    btnNewerThan: this._container.locator('dl').filter({ hasText: 'Newer than' }).locator('span'),
+    txtOlderThan: this._container.getByLabel('Older than'),
+    btnOlderThan: this._container.locator('dl').filter({ hasText: 'Older than' }).locator('span'),
+    txtMinNumberReplies: this._container.getByLabel('Minimum number of replies'),
+    btnAddMinNumberReplies: this._container.getByLabel('Increase'),
+    btnMinusMinNumberReplies: this._container.getByLabel('Decrease'),
+    cmbSearchInForums: this._container.locator(`[name='c[nodes][]']`),
+    chkSearchSubForums: this._container.locator(`[name='c[child_nodes]'`),
+    optOrderByDate: this._container.locator('label').filter({ hasText: 'Date' }).locator('i'),
+    optOrderByMostReplies: this._container.locator('label').filter({ hasText: 'Most replies' }).locator('i'),
+    chkDisplayResultsAsThreads: this._container.locator(`[name='grouped']`),
+    btnSearch: this._container.getByRole('button', { name: 'Search' }),
   };
 
-  constructor(private page: Page) {}
+  constructor(private readonly _page: Page) {}
 
   async search(params: SearchParameters): Promise<void> {
     if (params.keywords !== undefined) {
@@ -71,59 +71,59 @@ export class AdvancedSearchThreads {
   }
 
   async setKeywords(keywords: string): Promise<void> {
-    await this.locators.txtKeywords.fill(keywords);
+    await this._locators.txtKeywords.fill(keywords);
   }
 
   async setSearchTitlesOnly(checked: boolean): Promise<void> {
-    await this.locators.chkSearchTitlesOnly.setChecked(checked);
+    await this._locators.chkSearchTitlesOnly.setChecked(checked);
   }
 
   async setPostedBy(postedBy: string): Promise<void> {
-    await this.locators.txtPostedBy.fill(postedBy);
+    await this._locators.txtPostedBy.fill(postedBy);
   }
 
   async setNewerThan(date: string): Promise<void> {
-    await this.locators.txtNewerThan.fill(date);
+    await this._locators.txtNewerThan.fill(date);
   }
 
   async setOlderThan(date: string): Promise<void> {
-    await this.locators.txtOlderThan.fill(date);
+    await this._locators.txtOlderThan.fill(date);
   }
 
   async setMinNumberReplies(replies: number): Promise<void> {
-    await this.locators.txtMinNumberReplies.fill(replies.toString());
+    await this._locators.txtMinNumberReplies.fill(replies.toString());
   }
 
   async clickAddMinimumNumberReplies(): Promise<void> {
-    await this.locators.btnAddMinNumberReplies.click();
+    await this._locators.btnAddMinNumberReplies.click();
   }
 
   async clickMinusMinNumberReplies(): Promise<void> {
-    await this.locators.btnMinusMinNumberReplies.click();
+    await this._locators.btnMinusMinNumberReplies.click();
   }
 
   async selectSearchInForums(forum: string): Promise<void> {
-    await this.locators.cmbSearchInForums.selectOption({ label: forum });
+    await this._locators.cmbSearchInForums.selectOption({ label: forum });
   }
 
   async setSearchSubForums(checked: boolean): Promise<void> {
-    await this.locators.chkSearchSubForums.setChecked(checked);
+    await this._locators.chkSearchSubForums.setChecked(checked);
   }
 
   async setOrderByDate(): Promise<void> {
-    await this.locators.optOrderByDate.click();
+    await this._locators.optOrderByDate.click();
   }
 
   async setOrderByMostReplies(): Promise<void> {
-    await this.locators.optOrderByMostReplies.click();
+    await this._locators.optOrderByMostReplies.click();
   }
 
   async setDisplayResultsAsThreads(checked: boolean): Promise<void> {
-    await this.locators.chkDisplayResultsAsThreads.setChecked(checked);
+    await this._locators.chkDisplayResultsAsThreads.setChecked(checked);
   }
 
   async clickSearch(): Promise<void> {
-    await this.locators.btnSearch.click();
+    await this._locators.btnSearch.click();
   }
 }
 

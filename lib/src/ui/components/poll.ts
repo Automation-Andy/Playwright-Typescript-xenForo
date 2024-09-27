@@ -1,37 +1,42 @@
 import { Locator, Page } from '@playwright/test';
 
 export class Poll {
-  private readonly container = this.page.locator('.js-pollContainer-1');
-  readonly locators = {
-    pollHeading: this.container.getByRole('heading'),
-    btnCastVote: this.page.getByRole('button', { name: 'Cast vote' }),
-    btnEdit: this.page.getByRole('link', { name: 'Edit' }),
-    btnChangeVote: this.page.getByRole('link', { name: 'Change vote' }),
-    btnViewResults: this.page.getByRole('link', { name: 'View results' }),
+  private readonly _container = this._page.locator('.js-pollContainer-1');
+  private readonly _locators = {
+    pollHeading: this._container.getByRole('heading'),
+    btnCastVote: this._page.getByRole('button', { name: 'Cast vote' }),
+    btnEdit: this._page.getByRole('link', { name: 'Edit' }),
+    btnChangeVote: this._page.getByRole('link', { name: 'Change vote' }),
+    btnViewResults: this._page.getByRole('link', { name: 'View results' }),
   };
-  constructor(private readonly page: Page) {}
+
+  constructor(private readonly _page: Page) {}
+
+  get locators() {
+    return this._locators;
+  }
 
   get heading(): Locator {
-    return this.locators.pollHeading;
+    return this._locators.pollHeading;
   }
 
   async clickPollOption(option: string) {
-    await this.container.locator('label').filter({ hasText: option }).locator('i').check();
+    await this._container.locator('label').filter({ hasText: option }).locator('i').check();
   }
 
   async clickCastVote() {
-    await this.locators.btnCastVote.click();
+    await this._locators.btnCastVote.click();
   }
 
   async clickEdit() {
-    await this.locators.btnEdit.click();
+    await this._locators.btnEdit.click();
   }
 
   async clickChangeVote() {
-    await this.locators.btnChangeVote.click();
+    await this._locators.btnChangeVote.click();
   }
 
   async clickViewResults() {
-    await this.locators.btnViewResults.click();
+    await this._locators.btnViewResults.click();
   }
 }

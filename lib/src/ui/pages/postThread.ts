@@ -2,13 +2,13 @@ import { Locator, Page } from '@playwright/test';
 import { Editor } from '@ui/components/editor';
 
 abstract class PostThreadBase {
-  protected locators: { [key: string]: Locator };
+  protected _locators: { [key: string]: Locator };
   private readonly _threadOptions = new ThreadOptions(this.page);
   private readonly _threadStatus = new ThreadStatus(this.page);
   private readonly _editor = new Editor(this.page);
 
   constructor(protected readonly page: Page) {
-    this.locators = {
+    this._locators = {
       txtThreadTitle: this.page.getByPlaceholder('Thread title'),
       btnAttachFiles: this.page.getByRole('link', { name: 'Attach files' }),
       btnPostThread: this.page.getByRole('button', { name: 'Post thread' }),
@@ -16,11 +16,11 @@ abstract class PostThreadBase {
   }
 
   async setThreadTitle(title: string) {
-    await this.locators.txtThreadTitle.fill(title);
+    await this._locators.txtThreadTitle.fill(title);
   }
 
   protected async clickPostThread() {
-    await this.locators.btnPostThread.click();
+    await this._locators.btnPostThread.click();
   }
 
   protected get editor(): Editor {
@@ -39,8 +39,8 @@ abstract class PostThreadBase {
 export class PostDiscussionThread extends PostThreadBase {
   constructor(page: Page) {
     super(page);
-    this.locators = {
-      ...this.locators,
+    this._locators = {
+      ...this._locators,
       tabDiscussion: page.getByText('Discussion'),
     };
   }
@@ -53,39 +53,47 @@ export class PostDiscussionThread extends PostThreadBase {
   }
 
   async clickDiscussionTab() {
-    await this.locators.tabDiscussion.click();
+    await this._locators.tabDiscussion.click();
   }
 }
 
 class ThreadOptions {
-  readonly locators = {
-    chkWatchThisThread: this.page.getByText('Watch this thread'),
-    chkAndReceiveEmailNotifications: this.page.getByText('and receive email notifications'),
+  private readonly _locators = {
+    chkWatchThisThread: this._page.getByText('Watch this thread'),
+    chkAndReceiveEmailNotifications: this._page.getByText('and receive email notifications'),
   };
-  constructor(private readonly page: Page) {}
+  constructor(private readonly _page: Page) {}
+
+  get locators() {
+    return this._locators;
+  }
 
   async clickWatchThisThread() {
-    await this.locators.chkWatchThisThread.click();
+    await this._locators.chkWatchThisThread.click();
   }
 
   async clickAndReceiveEmailNotifications() {
-    await this.locators.chkAndReceiveEmailNotifications.click();
+    await this._locators.chkAndReceiveEmailNotifications.click();
   }
 }
 
 class ThreadStatus {
-  readonly locators = {
-    chkUnlocked: this.page.getByText('Unlocked'),
-    chkSticky: this.page.getByText('Sticky', { exact: true }),
+  private readonly _locators = {
+    chkUnlocked: this._page.getByText('Unlocked'),
+    chkSticky: this._page.getByText('Sticky', { exact: true }),
   };
-  constructor(private readonly page: Page) {}
+  constructor(private readonly _page: Page) {}
+
+  get locators() {
+    return this._locators;
+  }
 
   async clickUnlocked() {
-    await this.locators.chkUnlocked.click();
+    await this._locators.chkUnlocked.click();
   }
 
   async clickSticky() {
-    await this.locators.chkSticky.click();
+    await this._locators.chkSticky.click();
   }
 }
 
@@ -93,8 +101,8 @@ export class PostPollThread extends PostThreadBase {
   constructor(readonly page: Page) {
     super(page);
 
-    this.locators = {
-      ...this.locators,
+    this._locators = {
+      ...this._locators,
       tabPoll: this.page.getByText('Poll', { exact: true }),
       txtQuestion: this.page.getByLabel('Question'),
       txtPossibleResponses: this.page.locator(`[name="poll[new_responses][]"]`),
@@ -148,17 +156,17 @@ export class PostPollThread extends PostThreadBase {
   }
 
   async clickPollTab() {
-    await this.locators.tabPoll.click();
+    await this._locators.tabPoll.click();
   }
 
   async setQuestion(question: string) {
-    await this.locators.txtQuestion.fill(question);
+    await this._locators.txtQuestion.fill(question);
   }
 
   async setPossibleResponses(possibleResponses: string[]) {
     let i = 0;
     for (const response of possibleResponses) {
-      await this.locators.txtPossibleResponses.nth(i).pressSequentially(response);
+      await this._locators.txtPossibleResponses.nth(i).pressSequentially(response);
       i++;
     }
   }
@@ -166,13 +174,13 @@ export class PostPollThread extends PostThreadBase {
   async setMaximumSelectableResponses(type: PollMaximumResponses, numberOfResponses: number = 1) {
     switch (numberOfResponses) {
       case 0:
-        await this.locators.chkMaxResponsesSingle.click();
+        await this._locators.chkMaxResponsesSingle.click();
         break;
       case 1:
-        await this.locators.chkMaxResponsesUnlimited.click();
+        await this._locators.chkMaxResponsesUnlimited.click();
         break;
       default:
-        await this.locators.chkMaxResponsesMultiple.click();
+        await this._locators.chkMaxResponsesMultiple.click();
         break;
     }
   }

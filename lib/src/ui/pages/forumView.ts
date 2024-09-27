@@ -1,9 +1,9 @@
 import { Locator, Page } from '@playwright/test';
 
-export class SearchResults {
+export class ForumView {
   private readonly _locators = {
     heading: this._page.locator(`.p-title`).getByRole('heading'),
-    resultRows: this._page.locator(`.contentRow`),
+    threads: this._page.locator('.structItem--thread'),
   };
 
   constructor(private readonly _page: Page) {}
@@ -12,11 +12,11 @@ export class SearchResults {
     return this._locators;
   }
 
-  getHeading(): Locator {
-    return this._locators.heading;
+  getThreads(): Locator {
+    return this._locators.threads;
   }
 
-  getResultRows(): Locator {
-    return this._locators.resultRows;
+  getHeading(): Locator {
+    return this._locators.heading;
   }
 }

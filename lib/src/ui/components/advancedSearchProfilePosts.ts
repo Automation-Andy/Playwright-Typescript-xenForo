@@ -1,19 +1,23 @@
 import { Page } from '@playwright/test';
 
 export class AdvancedSearchProfilePosts {
-  readonly container = this.page.locator(`.p-body-content`);
-  readonly locators = {
-    txtKeywords: this.container.getByLabel('Keywords'),
-    txtPostedBy: this.container.getByLabel('Posted by'),
-    txtPostedOnProfileOfMember: this.container.getByLabel('Posted on the profile of'),
-    txtNewerThan: this.container.getByLabel('Newer than'),
-    btnNewerThan: this.container.locator('dl').filter({ hasText: 'Newer than' }).locator('span'),
-    txtOlderThan: this.container.getByLabel('Older than'),
-    btnOlderThan: this.container.locator('dl').filter({ hasText: 'Older than' }).locator('span'),
-    btnSearch: this.container.getByRole('button', { name: 'Search' }),
+  private readonly _container = this._page.locator(`.p-body-content`);
+  private readonly _locators = {
+    txtKeywords: this._container.getByLabel('Keywords'),
+    txtPostedBy: this._container.getByLabel('Posted by'),
+    txtPostedOnProfileOfMember: this._container.getByLabel('Posted on the profile of'),
+    txtNewerThan: this._container.getByLabel('Newer than'),
+    btnNewerThan: this._container.locator('dl').filter({ hasText: 'Newer than' }).locator('span'),
+    txtOlderThan: this._container.getByLabel('Older than'),
+    btnOlderThan: this._container.locator('dl').filter({ hasText: 'Older than' }).locator('span'),
+    btnSearch: this._container.getByRole('button', { name: 'Search' }),
   };
 
-  constructor(private page: Page) {}
+  constructor(private _page: Page) {}
+
+  get locators() {
+    return this._locators;
+  }
 
   async search(params: SearchParameters): Promise<void> {
     if (params.keywords !== undefined) {
@@ -40,27 +44,27 @@ export class AdvancedSearchProfilePosts {
   }
 
   async setKeywords(keywords: string): Promise<void> {
-    await this.locators.txtKeywords.fill(keywords);
+    await this._locators.txtKeywords.fill(keywords);
   }
 
   async setPostedBy(postedBy: string): Promise<void> {
-    await this.locators.txtPostedBy.fill(postedBy);
+    await this._locators.txtPostedBy.fill(postedBy);
   }
 
   async setPostedOnProfileOf(postedOnProfileOf: string): Promise<void> {
-    await this.locators.txtPostedOnProfileOfMember.fill(postedOnProfileOf);
+    await this._locators.txtPostedOnProfileOfMember.fill(postedOnProfileOf);
   }
 
   async setNewerThan(newerThan: string): Promise<void> {
-    await this.locators.txtNewerThan.fill(newerThan);
+    await this._locators.txtNewerThan.fill(newerThan);
   }
 
   async setOlderThan(olderThan: string): Promise<void> {
-    await this.locators.txtOlderThan.fill(olderThan);
+    await this._locators.txtOlderThan.fill(olderThan);
   }
 
   async clickSearch(): Promise<void> {
-    await this.locators.btnSearch.click();
+    await this._locators.btnSearch.click();
   }
 }
 

@@ -10,7 +10,7 @@ type MyFixtures = {
 export const test = base.extend<MyFixtures>({
   ui: async ({ page }, use) => {
     const ui = new UI(page);
-    await ui.pages.home.navigateTo();
+    await ui.pages.home.goto();
     await use(ui);
   },
   users: async ({}, use) => {
