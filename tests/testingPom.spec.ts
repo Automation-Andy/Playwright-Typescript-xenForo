@@ -2,17 +2,27 @@ import { expect, test } from '@fixtures/base';
 import { ModerateThreadsActions } from '@ui/components/inlineModerationBar';
 
 test.use({ storageState: { cookies: [], origins: [] } });
-test('Navigate to forum view and verify forum heading', async ({ ui }) => {
+test('Create a new thread and delete using api', async ({ page, api, ui }) => {
   await test.step(`Log in`, async () => {
     await ui.components.navigationBar.clickLogIn();
     await ui.pages.login.loginAs(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
     await expect(ui.components.navigationBar.locators.lblLoggedInUser).toHaveText(process.env.ADMIN_USER);
   });
 
-  await test.step(`Goto forum Main forum`, async () => {
-    await ui.pages.home.gotoForum('Main category', 'Main forum');
-    await expect(ui.pages.forumView.getThreads()).toHaveCount(1);
-    await expect(ui.pages.forumView.getHeading()).toHaveText('Main forum');
+  await test.step(`Navigate to post thread in main forum`, async () => {
+    await ui.pages.home.clickPostThread();
+    await expect(page.getByText('Post thread in...')).toBeVisible();
+    await ui.popups.postThreadIn.clickThreadDestination('Main category', 'Main forum');
+  });
+
+  await test.step(`Post a thread`, async () => {
+    await ui.pages.postDiscussionThread.create('Thread title', 'Thread content');
+    await expect(ui.pages.threadView.getHeading()).toHaveText('Thread title');
+    await expect(ui.pages.threadView.getPosts()).toHaveCount(1);
+  });
+
+  await test.step(`Delete thread using api`, async () => {
+    await api.threads.deleteThread(ui.pages.threadView.getThreadId(), true);
   });
 });
 

@@ -1,13 +1,19 @@
 import { test as base } from '@playwright/test';
 import { Users } from '@data/users';
 import { UI } from '@ui/ui';
+import { Api } from '@api/api';
 
 type MyFixtures = {
+  api: Api;
   ui: UI;
   users: Users;
 };
 
 export const test = base.extend<MyFixtures>({
+  api: async ({ request }, use) => {
+    const api = new Api(request);
+    await use(api);
+  },
   ui: async ({ page }, use) => {
     const ui = new UI(page);
     await ui.pages.home.goto();
