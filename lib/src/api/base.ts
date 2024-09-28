@@ -10,7 +10,7 @@ export abstract class ApiBase {
   ): Promise<APIResponse> {
     return await this._request[method](`api/${endpoint}`, {
       headers: { 'XF-Api-Key': process.env.ADMIN_API_KEY },
-      data: body,
+      params: body,
     });
   }
 }

@@ -2,7 +2,7 @@ import { expect, test } from '@fixtures/base';
 import { ModerateThreadsActions } from '@ui/components/inlineModerationBar';
 
 test.use({ storageState: { cookies: [], origins: [] } });
-test('Create a new thread and delete using api', async ({ page, api, ui }) => {
+test('Create a new thread using ui and delete using api', async ({ page, api, ui }) => {
   await test.step(`Log in`, async () => {
     await ui.components.navigationBar.clickLogIn();
     await ui.pages.login.loginAs(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
@@ -22,7 +22,28 @@ test('Create a new thread and delete using api', async ({ page, api, ui }) => {
   });
 
   await test.step(`Delete thread using api`, async () => {
-    await api.threads.deleteThread(ui.pages.threadView.getThreadId(), true);
+    await api.threads.delete(ui.pages.threadView.getThreadId(), true);
+  });
+});
+
+test.use({ storageState: { cookies: [], origins: [] } });
+test('Create a new thread using api', async ({ api, ui }) => {
+  await test.step(`Log in`, async () => {
+    await ui.components.navigationBar.clickLogIn();
+    await ui.pages.login.loginAs(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
+    await expect(ui.components.navigationBar.locators.lblLoggedInUser).toHaveText(process.env.ADMIN_USER);
+  });
+
+  await test.step(`Create thread using api`, async () => {
+    await api.threads.create(2, 'Thread created via api', 'Thread content is goooood');
+  });
+});
+
+test.use({ storageState: { cookies: [], origins: [] } });
+test('Can delete thread using api', async ({ api }) => {
+  await test.step(`Create thread using api`, async () => {
+    const response = await api.threads.delete(63, true);
+    expect(response.status()).toBe(200);
   });
 });
 
