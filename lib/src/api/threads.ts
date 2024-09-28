@@ -6,23 +6,34 @@ export class Threads extends ApiBase {
     super(request);
   }
 
-  async deleteThread(threadId: number, permanentlyDelete = false): Promise<APIResponse> {
-    interface body {
-      hard_delete: boolean;
-      reason: string;
-      starter_alert: boolean;
-      starter_alert_reason: string;
-    }
-
-    const bodyData: body = {
-      hard_delete: permanentlyDelete,
-      reason: 'Test',
-      starter_alert: false,
-      starter_alert_reason: '',
+  async create(forumNodeId: number, title: string, message: string): Promise<APIResponse> {
+    const params = {
+      node_id: forumNodeId,
+      title: title,
+      message: message,
+      discussion_type: DiscussionType.Discussion,
     };
 
-    const response = await this.request('delete', `threads/${threadId}`, bodyData);
+    const response = await this.request('post', 'threads/', params);
     expect(response.status()).toBe(200);
     return response;
   }
+
+  async delete(threadId: number, permanentlyDelete = false): Promise<APIResponse> {
+    const params = {
+      hard_delete: permanentlyDelete,
+      reason: 'Test',
+      starter_alert: false,
+      starter_alert_reason: 'no reason',
+    };
+
+    const response = await this.request('delete', `threads/${threadId}`, params);
+    expect(response.status()).toBe(200);
+    return response;
+  }
+}
+
+export enum DiscussionType {
+  Discussion = 'discussion',
+  Poll = 'poll',
 }
