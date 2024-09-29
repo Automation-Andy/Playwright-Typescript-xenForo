@@ -19,17 +19,6 @@ export class ThreadView {
     return this.locators.heading;
   }
 
-  getThreadId(): number | null {
-    const url = this._page.url();
-    const match = url.match(/(\d+)\/?$/);
-
-    if (match) {
-      return parseInt(match[1], 10);
-    } else {
-      throw new Error(`Thread ID not found in URL ${url}`);
-    }
-  }
-
   get poll(): Poll {
     return this._poll;
   }

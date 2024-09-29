@@ -1,5 +1,6 @@
 import { expect, test } from '@fixtures/base';
 import { ModerateThreadsActions } from '@ui/components/inlineModerationBar';
+import { StringHelpers } from '@helpers/string';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 test('Create a new thread using ui and delete using api', async ({ page, api, ui }) => {
@@ -22,7 +23,7 @@ test('Create a new thread using ui and delete using api', async ({ page, api, ui
   });
 
   await test.step(`Delete thread using api`, async () => {
-    await api.threads.delete(ui.pages.threadView.getThreadId(), true);
+    await api.threads.delete(StringHelpers.getIdFromUrl(page.url()), true);
   });
 });
 
