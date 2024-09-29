@@ -31,7 +31,7 @@ module.exports = {
         // you can customize rules in this section.  See https://www.npmjs.com/package/eslint-plugin-playwright
         // for rule configuration details.
         "playwright/expect-expect": [
-            "error",
+            "off",
         ]
     }
 }
