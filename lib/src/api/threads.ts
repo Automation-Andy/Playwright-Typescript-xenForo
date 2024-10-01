@@ -1,9 +1,9 @@
 import { ApiBase } from '@api/base';
-import { APIRequestContext, APIResponse, expect } from '@playwright/test';
+import { APIRequestContext, APIResponse, expect, Page } from '@playwright/test';
 
 export class Threads extends ApiBase {
-  constructor(request: APIRequestContext) {
-    super(request);
+  constructor(request: APIRequestContext, page: Page) {
+    super(request, page);
   }
 
   async create(forumNodeId: number, title: string, message: string): Promise<APIResponse> {

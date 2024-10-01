@@ -1,6 +1,3 @@
-import { User } from '../src/enums/users';
-import { UserType } from '../src/interfaces/userType';
-
 export class Users {
   private readonly users: UserType[] = [
     {
@@ -18,4 +15,15 @@ export class Users {
   getUser(username: User): UserType {
     return this.users.find((user) => user.username === username);
   }
+}
+
+export interface UserType {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export enum User {
+  NormalUser001 = 'NormalUser001',
+  NormalUser002 = 'NormalUser002',
 }

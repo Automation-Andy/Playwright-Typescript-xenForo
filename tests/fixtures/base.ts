@@ -10,8 +10,8 @@ type MyFixtures = {
 };
 
 export const test = base.extend<MyFixtures>({
-  api: async ({ request }, use) => {
-    const api = new Api(request);
+  api: async ({ request, page }, use) => {
+    const api = new Api(request, page);
     await use(api);
   },
   ui: async ({ page }, use) => {

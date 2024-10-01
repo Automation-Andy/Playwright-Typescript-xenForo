@@ -32,6 +32,9 @@ module.exports = {
         // for rule configuration details.
         "playwright/expect-expect": [
             "off",
-        ]
+        ],
+         "playwright/no-standalone-expect": [
+            "off",
+         ]
     }
 }

@@ -1,12 +1,9 @@
 import { test, expect } from '@fixtures/base';
-import { User } from '@enums/users';
 
-test(`Log in with registered user by username and password`, async ({ users, ui }) => {
-  const user = await test.step(`Get test user`, async () => {
-    return users.getUser(User.NormalUser001);
-  });
-
+test(`Log in as admin`, async ({ ui }) => {
   await test.step(`Check we are logged in`, async () => {
-    await expect(ui.components.navigationBar.locators.lblLoggedInUser).toHaveText(user.username);
+    await ui.components.navigationBar.clickLogIn();
+    await ui.pages.login.loginAs(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
+    await expect(ui.components.navigationBar.locators.lblLoggedInUser).toHaveText(process.env.ADMIN_USER);
   });
 });
