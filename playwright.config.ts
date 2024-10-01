@@ -3,6 +3,8 @@ import * as dotenv from 'dotenv';
 import * as path from 'path';
 
 dotenv.config();
+
+export const ADMIN_USER_STORAGE_STATE = path.join(__dirname, '/.auth/admin.json');
 export const NORMAL_USER_001_STORAGE_STATE = path.join(__dirname, '/.auth/normalUser001.json');
 
 export default defineConfig({
@@ -24,7 +26,7 @@ export default defineConfig({
   projects: [
     {
       name: 'setup',
-      testMatch: /global\.setup\.ts/,
+      testMatch: /auth\.setup\.ts/,
       teardown: 'teardown',
     },
     {
@@ -37,7 +39,13 @@ export default defineConfig({
     },
     {
       name: 'teardown',
-      testMatch: /global\.teardown\.ts/,
+      testMatch: /teardown\.ts/,
+    },
+    {
+      name: 'debug',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
     },
   ],
 });

@@ -1,12 +1,12 @@
-import { APIRequestContext, APIResponse, expect } from '@playwright/test';
+import { APIRequestContext, APIResponse, expect, Page } from '@playwright/test';
 import { ApiBase } from '@api/base';
 
 export class Nodes extends ApiBase {
-  constructor(request: APIRequestContext) {
-    super(request);
+  constructor(request: APIRequestContext, page: Page) {
+    super(request, page);
   }
 
-  async create(parentNodeId: number | null, type: NodeType, title: string): Promise<Node> {
+  async create(parentNodeId: number | null, type: NodeType, title: string, wait = false): Promise<Node> {
     const params = {
       node_type_id: type.valueOf(),
       'node[title]': title,
@@ -17,6 +17,7 @@ export class Nodes extends ApiBase {
     expect(response.status()).toBe(200);
 
     const data = await response.json();
+    if (wait) await this.waitForUrlStatus(data.node.view_url, 200);
     return { id: data.node.node_id, url: data.node.view_url };
   }
 
@@ -24,9 +25,9 @@ export class Nodes extends ApiBase {
     const params = {
       delete_children: deleteChildren,
     };
-    console.log(`node: ${nodeId}`);
+
     const response = await this.request('delete', `nodes/${nodeId}`, params);
-    console.log(`response: ${await response.body()}`);
+
     expect(response.status()).toBe(200);
     return response;
   }
@@ -43,6 +44,7 @@ export class Nodes extends ApiBase {
 export enum NodeType {
   Category = 'Category',
   Forum = 'Forum',
+  Link = 'LinkForum',
 }
 
 export interface Node {
