@@ -17,7 +17,7 @@ export class Home {
     await this._page.goto('./');
   }
 
-  async gotoForum(categoryName: string, forumName: string) {
+  async clickForum(categoryName: string, forumName: string) {
     await this._locators.categoryContainers
       .filter({ has: this._page.getByRole('heading', { name: categoryName }) })
       .getByRole('link', { name: forumName })

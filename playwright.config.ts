@@ -31,6 +31,8 @@ export default defineConfig({
     },
     {
       name: 'chromium',
+      testDir: './tests',
+      testMatch: /.*\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
         storageState: NORMAL_USER_001_STORAGE_STATE,
@@ -40,12 +42,6 @@ export default defineConfig({
     {
       name: 'teardown',
       testMatch: /teardown\.ts/,
-    },
-    {
-      name: 'debug',
-      use: {
-        ...devices['Desktop Chrome'],
-      },
     },
   ],
 });

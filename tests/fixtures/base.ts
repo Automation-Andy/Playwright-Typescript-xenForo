@@ -2,11 +2,14 @@ import { test as base } from '@playwright/test';
 import { Users } from '@data/users';
 import { UI } from '@ui/ui';
 import { Api } from '@api/api';
+import { simpleFaker } from '@faker-js/faker';
 
 type MyFixtures = {
   api: Api;
   ui: UI;
   users: Users;
+  faker: typeof simpleFaker;
+  // threadData: () => ThreadData;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -22,6 +25,9 @@ export const test = base.extend<MyFixtures>({
   users: async ({}, use) => {
     const users = new Users();
     await use(users);
+  },
+  faker: async ({}, use) => {
+    await use(simpleFaker);
   },
 });
 
