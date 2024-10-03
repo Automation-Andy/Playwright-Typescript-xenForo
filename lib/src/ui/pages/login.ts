@@ -20,17 +20,17 @@ export class LogIn {
   }
 
   async loginAs(username: string, password: string, stayLoggedIn = false): Promise<void> {
-    await this.setUserNameOrEmail(username);
-    await this.setPassword(password);
+    await this.enterUserNameOrEmail(username);
+    await this.enterPassword(password);
     await this.checkStayLoggedIn(stayLoggedIn);
     await this.clickLogIn();
   }
 
-  async setUserNameOrEmail(username: string): Promise<void> {
+  async enterUserNameOrEmail(username: string): Promise<void> {
     await this._locators.txtUsername.fill(username);
   }
 
-  async setPassword(password: string): Promise<void> {
+  async enterPassword(password: string): Promise<void> {
     await this._locators.txtPassword.fill(password);
   }
 

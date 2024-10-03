@@ -20,12 +20,12 @@ export class Search {
   async performSearch(searchText: string, titlesOnly?: boolean, byMember?: string): Promise<void> {
     await this._locators.txtSearch.fill(searchText);
     if (titlesOnly !== undefined) await this.setSearchTitlesOnly(titlesOnly);
-    if (byMember !== undefined) await this.setByMember(byMember);
+    if (byMember !== undefined) await this.enterByMember(byMember);
 
     await this._locators.btnSearch.click();
   }
 
-  async setKeyword(keyword: string): Promise<void> {
+  async enterKeyword(keyword: string): Promise<void> {
     await this._locators.txtSearch.fill(keyword);
   }
 
@@ -33,7 +33,7 @@ export class Search {
     await this._locators.chkSearchTitlesOnly.setChecked(checked);
   }
 
-  async setByMember(member: string): Promise<void> {
+  async enterByMember(member: string): Promise<void> {
     await this._locators.txtByMember.fill(member);
   }
 

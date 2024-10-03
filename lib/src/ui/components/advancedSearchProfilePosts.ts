@@ -21,45 +21,45 @@ export class AdvancedSearchProfilePosts {
 
   async search(params: SearchParameters): Promise<void> {
     if (params.keywords !== undefined) {
-      await this.setKeywords(params.keywords);
+      await this.enterKeywords(params.keywords);
     }
 
     if (params.postedBy !== undefined) {
-      await this.setPostedBy(params.postedBy);
+      await this.enterPostedBy(params.postedBy);
     }
 
     if (params.postedOnProfileOf !== undefined) {
-      await this.setPostedOnProfileOf(params.postedOnProfileOf);
+      await this.enterPostedOnProfileOf(params.postedOnProfileOf);
     }
 
     if (params.newerThan !== undefined) {
-      await this.setNewerThan(params.newerThan);
+      await this.enterNewerThan(params.newerThan);
     }
 
     if (params.olderThan !== undefined) {
-      await this.setOlderThan(params.olderThan);
+      await this.enterOlderThan(params.olderThan);
     }
 
     await this.clickSearch();
   }
 
-  async setKeywords(keywords: string): Promise<void> {
+  async enterKeywords(keywords: string): Promise<void> {
     await this._locators.txtKeywords.fill(keywords);
   }
 
-  async setPostedBy(postedBy: string): Promise<void> {
+  async enterPostedBy(postedBy: string): Promise<void> {
     await this._locators.txtPostedBy.fill(postedBy);
   }
 
-  async setPostedOnProfileOf(postedOnProfileOf: string): Promise<void> {
+  async enterPostedOnProfileOf(postedOnProfileOf: string): Promise<void> {
     await this._locators.txtPostedOnProfileOfMember.fill(postedOnProfileOf);
   }
 
-  async setNewerThan(newerThan: string): Promise<void> {
+  async enterNewerThan(newerThan: string): Promise<void> {
     await this._locators.txtNewerThan.fill(newerThan);
   }
 
-  async setOlderThan(olderThan: string): Promise<void> {
+  async enterOlderThan(olderThan: string): Promise<void> {
     await this._locators.txtOlderThan.fill(olderThan);
   }
 

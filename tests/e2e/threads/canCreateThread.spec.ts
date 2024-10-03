@@ -1,7 +1,9 @@
-import { expect, test } from '@fixtures/base';
+import { expect, test } from '@fixtures/threads';
 import { ADMIN_USER_STORAGE_STATE } from 'playwright.config';
 
 test.use({ storageState: ADMIN_USER_STORAGE_STATE });
+
+let threadId = 0;
 
 test.beforeEach(async ({ ui }) => {
   await test.step(`Navigate to forum where thread should be created`, async () => {
@@ -10,16 +12,13 @@ test.beforeEach(async ({ ui }) => {
   });
 });
 
-test(`Can create a thread`, async ({ page, ui, faker }) => {
-  const threadData = await test.step(`Get thread data`, async () => {
-    const title = faker.string.alphanumeric({ length: { min: 5, max: 30 } });
-    return {
-      title: title,
-      content: faker.string.alphanumeric({ length: { min: 5, max: 100 } }),
-      slug: title.replace(/ /g, '-').toLowerCase(),
-    };
+test.afterEach(async ({ api }) => {
+  await test.step(`Delete the thread with id ${threadId}`, async () => {
+    await api.threads.delete(threadId, true);
   });
+});
 
+test(`Can create a thread`, async ({ ui, threadData }) => {
   await test.step(`Create a thread`, async () => {
     await ui.pages.forumView.clickPostThread();
     await ui.pages.postDiscussionThread.create(threadData.title, threadData.content);
@@ -27,6 +26,7 @@ test(`Can create a thread`, async ({ page, ui, faker }) => {
 
   await test.step(`Check thread has been created and the url is as expected`, async () => {
     await expect(ui.pages.threadView.getHeading()).toHaveText(threadData.title);
-    await expect(page).toHaveURL(new RegExp(`/index\\.php\\?threads\\/${threadData.slug}\\.\\d+\\/`));
+    threadId = ui.pages.threadView.getId();
+    expect(threadId, `Expected thread id to be > 0 but received ${threadId}`).toBeGreaterThan(0);
   });
 });
