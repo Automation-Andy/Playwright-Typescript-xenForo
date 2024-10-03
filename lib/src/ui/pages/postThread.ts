@@ -1,17 +1,18 @@
+import { StringHelpers } from '@helpers/string';
 import { Locator, Page } from '@playwright/test';
 import { Editor } from '@ui/components/editor';
 
 abstract class PostThreadBase {
   protected _locators: { [key: string]: Locator };
-  private readonly _threadOptions = new ThreadOptions(this.page);
-  private readonly _threadStatus = new ThreadStatus(this.page);
-  private readonly _editor = new Editor(this.page);
+  private readonly _threadOptions = new ThreadOptions(this._page);
+  private readonly _threadStatus = new ThreadStatus(this._page);
+  private readonly _editor = new Editor(this._page);
 
-  constructor(protected readonly page: Page) {
+  constructor(protected readonly _page: Page) {
     this._locators = {
-      txtThreadTitle: this.page.getByPlaceholder('Thread title'),
-      btnAttachFiles: this.page.getByRole('link', { name: 'Attach files' }),
-      btnPostThread: this.page.getByRole('button', { name: 'Post thread' }),
+      txtThreadTitle: this._page.getByPlaceholder('Thread title'),
+      btnAttachFiles: this._page.getByRole('link', { name: 'Attach files' }),
+      btnPostThread: this._page.getByRole('button', { name: 'Post thread' }),
     };
   }
 
@@ -37,19 +38,25 @@ abstract class PostThreadBase {
 }
 
 export class PostDiscussionThread extends PostThreadBase {
-  constructor(page: Page) {
-    super(page);
+  constructor(_page: Page) {
+    super(_page);
     this._locators = {
       ...this._locators,
-      tabDiscussion: page.getByText('Discussion'),
+      tabDiscussion: _page.getByText('Discussion'),
     };
   }
 
-  async create(title: string, content: string) {
+  async create(title: string, message: string): Promise<ThreadID> {
     await this.clickDiscussionTab();
     await this.enterThreadTitle(title);
-    await this.editor.enterContent(content);
+    await this.editor.enterMessage(message);
     await this.clickPostThread();
+    await this._page.waitForURL('**/index.php?threads/**');
+    return this.getThreadID();
+  }
+
+  async getThreadID(): Promise<ThreadID> {
+    return StringHelpers.getIdFromUrl(this._page.url());
   }
 
   async clickDiscussionTab() {
@@ -140,7 +147,7 @@ export class PostPollThread extends PostThreadBase {
 
   async create(
     title: string,
-    content: string,
+    message: string,
     question: string,
     possibleResponses: string[],
     selectableResponseType: PollMaximumResponses,
@@ -148,7 +155,7 @@ export class PostPollThread extends PostThreadBase {
   ): Promise<void> {
     await this.clickPollTab();
     await this.enterThreadTitle(title);
-    await this.editor.enterContent(content);
+    await this.editor.enterMessage(message);
     await this.setQuestion(question);
     await this.setPossibleResponses(possibleResponses);
     await this.setMaximumSelectableResponses(selectableResponseType, maximumSelectableResponses);
@@ -187,3 +194,4 @@ export class PostPollThread extends PostThreadBase {
 }
 
 type PollMaximumResponses = 'single' | 'unlimited' | 'multiple';
+type ThreadID = number;

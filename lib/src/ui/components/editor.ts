@@ -16,8 +16,8 @@ export class Editor {
     return this._toolbar;
   }
 
-  async enterContent(content: string) {
-    await this._locators.txtEditor.fill(content);
+  async enterMessage(message: string) {
+    await this._locators.txtEditor.fill(message);
   }
 }
 

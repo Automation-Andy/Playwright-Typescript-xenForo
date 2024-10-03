@@ -13,7 +13,7 @@ export const test = base.extend<ThreadFixture>({
   },
   threadData: {
     title: simpleFaker.string.alphanumeric({ length: { min: 5, max: 30 } }),
-    content: simpleFaker.string.alphanumeric({ length: { min: 5, max: 100 } }),
+    message: simpleFaker.string.alphanumeric({ length: { min: 5, max: 100 } }),
   },
 });
 
