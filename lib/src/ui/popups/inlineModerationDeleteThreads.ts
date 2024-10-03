@@ -26,9 +26,9 @@ export class InlineModerationDeleteThreads {
 
   async removeFromPublicView(reason = '', notifyThreadStarter = false, notifyReason = '') {
     await this.clickRemoveFromPublicView();
-    await this.setReason(reason);
+    await this.enterReason(reason);
     await this.setNotifyThreadStarter(notifyThreadStarter);
-    await this.setNotifyReason(notifyReason);
+    await this.enterNotifyReason(notifyReason);
   }
 
   getTitle(): Locator {
@@ -39,7 +39,7 @@ export class InlineModerationDeleteThreads {
     await this._locators.optRemoveFromPublicView.click();
   }
 
-  async setReason(reason: string) {
+  async enterReason(reason: string) {
     await this._locators.txtReason.fill(reason);
   }
 
@@ -51,7 +51,7 @@ export class InlineModerationDeleteThreads {
     await this._locators.chkNotifyThreadStarter.setChecked(checked);
   }
 
-  async setNotifyReason(reason: string) {
+  async enterNotifyReason(reason: string) {
     await this._locators.txtNotifyReason.fill(reason);
   }
 

@@ -15,7 +15,7 @@ abstract class PostThreadBase {
     };
   }
 
-  async setThreadTitle(title: string) {
+  async enterThreadTitle(title: string) {
     await this._locators.txtThreadTitle.fill(title);
   }
 
@@ -47,8 +47,8 @@ export class PostDiscussionThread extends PostThreadBase {
 
   async create(title: string, content: string) {
     await this.clickDiscussionTab();
-    await this.setThreadTitle(title);
-    await this.editor.setContent(content);
+    await this.enterThreadTitle(title);
+    await this.editor.enterContent(content);
     await this.clickPostThread();
   }
 
@@ -147,8 +147,8 @@ export class PostPollThread extends PostThreadBase {
     maximumSelectableResponses: number = 1,
   ): Promise<void> {
     await this.clickPollTab();
-    await this.setThreadTitle(title);
-    await this.editor.setContent(content);
+    await this.enterThreadTitle(title);
+    await this.editor.enterContent(content);
     await this.setQuestion(question);
     await this.setPossibleResponses(possibleResponses);
     await this.setMaximumSelectableResponses(selectableResponseType, maximumSelectableResponses);

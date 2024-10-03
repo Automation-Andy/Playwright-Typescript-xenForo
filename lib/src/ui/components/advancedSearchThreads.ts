@@ -25,7 +25,7 @@ export class AdvancedSearchThreads {
 
   async search(params: SearchParameters): Promise<void> {
     if (params.keywords !== undefined) {
-      await this.setKeywords(params.keywords);
+      await this.enterKeywords(params.keywords);
     }
 
     if (params.searchTitlesOnly !== undefined) {
@@ -33,19 +33,19 @@ export class AdvancedSearchThreads {
     }
 
     if (params.postedBy !== undefined) {
-      await this.setPostedBy(params.postedBy);
+      await this.enterPostedBy(params.postedBy);
     }
 
     if (params.newerThan !== undefined) {
-      await this.setNewerThan(params.newerThan);
+      await this.enterNewerThan(params.newerThan);
     }
 
     if (params.olderThan !== undefined) {
-      await this.setOlderThan(params.olderThan);
+      await this.enterOlderThan(params.olderThan);
     }
 
     if (params.minNumberReplies !== undefined) {
-      await this.setMinNumberReplies(params.minNumberReplies);
+      await this.enterMinNumberReplies(params.minNumberReplies);
     }
 
     if (params.searchInForum !== undefined) {
@@ -70,7 +70,7 @@ export class AdvancedSearchThreads {
     await this.clickSearch();
   }
 
-  async setKeywords(keywords: string): Promise<void> {
+  async enterKeywords(keywords: string): Promise<void> {
     await this._locators.txtKeywords.fill(keywords);
   }
 
@@ -78,19 +78,19 @@ export class AdvancedSearchThreads {
     await this._locators.chkSearchTitlesOnly.setChecked(checked);
   }
 
-  async setPostedBy(postedBy: string): Promise<void> {
+  async enterPostedBy(postedBy: string): Promise<void> {
     await this._locators.txtPostedBy.fill(postedBy);
   }
 
-  async setNewerThan(date: string): Promise<void> {
+  async enterNewerThan(date: string): Promise<void> {
     await this._locators.txtNewerThan.fill(date);
   }
 
-  async setOlderThan(date: string): Promise<void> {
+  async enterOlderThan(date: string): Promise<void> {
     await this._locators.txtOlderThan.fill(date);
   }
 
-  async setMinNumberReplies(replies: number): Promise<void> {
+  async enterMinNumberReplies(replies: number): Promise<void> {
     await this._locators.txtMinNumberReplies.fill(replies.toString());
   }
 

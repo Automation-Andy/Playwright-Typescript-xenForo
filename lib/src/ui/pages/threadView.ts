@@ -1,3 +1,4 @@
+import { StringHelpers } from '@helpers/string';
 import { Locator, Page } from '@playwright/test';
 import { Poll } from '@ui/components/poll';
 
@@ -17,6 +18,10 @@ export class ThreadView {
 
   getHeading(): Locator {
     return this.locators.heading;
+  }
+
+  getId(): number {
+    return StringHelpers.getIdFromUrl(this._page.url());
   }
 
   get poll(): Poll {
