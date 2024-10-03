@@ -21,12 +21,14 @@ test.afterEach(async ({ api }) => {
 test(`Can create a thread`, async ({ ui, threadData }) => {
   await test.step(`Create a thread`, async () => {
     await ui.pages.forumView.clickPostThread();
-    await ui.pages.postDiscussionThread.create(threadData.title, threadData.content);
+    threadId = await ui.pages.postDiscussionThread.create(threadData.title, threadData.message);
   });
 
-  await test.step(`Check thread has been created and the url is as expected`, async () => {
-    await expect(ui.pages.threadView.getHeading()).toHaveText(threadData.title);
-    threadId = ui.pages.threadView.getId();
+  await test.step(`Check thread has been created`, async () => {
     expect(threadId, `Expected thread id to be > 0 but received ${threadId}`).toBeGreaterThan(0);
+    await expect(ui.pages.threadView.getHeading()).toHaveText(threadData.title);
+    await expect(ui.pages.threadView.getPostByIndex(1).getMessage()).toHaveText(threadData.message);
+    await expect(ui.pages.threadView.getPostByIndex(1).getPostedBy()).toHaveText('admin');
+    await expect(ui.pages.threadView.getPostByIndex(1).getUserTitle()).toHaveText('Administrator');
   });
 });

@@ -1,6 +1,7 @@
 import { StringHelpers } from '@helpers/string';
 import { Locator, Page } from '@playwright/test';
 import { Poll } from '@ui/components/poll';
+import { PostBit } from '@ui/components/postBit';
 
 export class ThreadView {
   readonly locators = {
@@ -14,6 +15,10 @@ export class ThreadView {
 
   getPosts(): Locator {
     return this.locators.posts;
+  }
+
+  getPostByIndex(oneBasedIndex: number): PostBit {
+    return new PostBit(this._page, this.locators.posts.nth(oneBasedIndex - 1));
   }
 
   getHeading(): Locator {
