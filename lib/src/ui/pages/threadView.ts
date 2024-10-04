@@ -17,8 +17,15 @@ export class ThreadView {
     return this.locators.posts;
   }
 
-  getPostByIndex(oneBasedIndex: number): PostBit {
-    return new PostBit(this._page, this.locators.posts.nth(oneBasedIndex - 1));
+  async getPostByIndex(oneBasedIndex: number): Promise<PostBit> {
+    const zeroBasedIndex = oneBasedIndex - 1;
+    const postCount = await this.locators.posts.count();
+
+    if (zeroBasedIndex < 0 || zeroBasedIndex >= postCount) {
+      throw new Error(`Index out of range: ${oneBasedIndex}. Valid range is 1 to ${postCount}.`);
+    }
+
+    return new PostBit(this._page, this.locators.posts.nth(zeroBasedIndex));
   }
 
   getHeading(): Locator {
