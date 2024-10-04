@@ -27,8 +27,9 @@ test(`Can create a thread`, async ({ ui, threadData }) => {
   await test.step(`Check thread has been created`, async () => {
     expect(threadId, `Expected thread id to be > 0 but received ${threadId}`).toBeGreaterThan(0);
     await expect(ui.pages.threadView.getHeading()).toHaveText(threadData.title);
-    await expect(ui.pages.threadView.getPostByIndex(1).getMessage()).toHaveText(threadData.message);
-    await expect(ui.pages.threadView.getPostByIndex(1).getPostedBy()).toHaveText('admin');
-    await expect(ui.pages.threadView.getPostByIndex(1).getUserTitle()).toHaveText('Administrator');
+    const threadPost = await ui.pages.threadView.getPostByIndex(1);
+    await expect(threadPost.getMessage()).toHaveText(threadData.message);
+    await expect(threadPost.getPostedBy()).toHaveText(process.env.ADMIN_USER);
+    await expect(threadPost.getUserTitle()).toHaveText('Administrator');
   });
 });

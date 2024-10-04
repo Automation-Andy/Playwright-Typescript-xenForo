@@ -46,6 +46,13 @@ export class PostDiscussionThread extends PostThreadBase {
     };
   }
 
+  /**
+   * Creates a new thread with the given title and message.
+   *
+   * @param title - The title of the thread to be created.
+   * @param message - The message content of the thread.
+   * @returns A promise that resolves to the ID of the created thread.
+   */
   async create(title: string, message: string): Promise<ThreadID> {
     await this.clickDiscussionTab();
     await this.enterThreadTitle(title);
