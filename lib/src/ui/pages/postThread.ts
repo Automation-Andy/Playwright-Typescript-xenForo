@@ -16,7 +16,7 @@ abstract class PostThreadBase {
     };
   }
 
-  async enterThreadTitle(title: string) {
+  protected async enterThreadTitle(title: string) {
     await this._locators.txtThreadTitle.fill(title);
   }
 
@@ -34,6 +34,25 @@ abstract class PostThreadBase {
 
   get threadStatus(): ThreadStatus {
     return this._threadStatus;
+  }
+
+  async getThreadID(): Promise<ThreadID> {
+    return StringHelpers.getIdFromUrl(this._page.url());
+  }
+}
+
+export class PostThread {
+  private readonly _discussion = new PostDiscussionThread(this._page);
+  private readonly _poll = new PostPollThread(this._page);
+
+  constructor(private readonly _page: Page) {}
+
+  get discussion(): PostDiscussionThread {
+    return this._discussion;
+  }
+
+  get poll(): PostPollThread {
+    return this._poll;
   }
 }
 
@@ -60,10 +79,6 @@ export class PostDiscussionThread extends PostThreadBase {
     await this.clickPostThread();
     await this._page.waitForURL('**/index.php?threads/**');
     return this.getThreadID();
-  }
-
-  async getThreadID(): Promise<ThreadID> {
-    return StringHelpers.getIdFromUrl(this._page.url());
   }
 
   async clickDiscussionTab() {
@@ -159,7 +174,7 @@ export class PostPollThread extends PostThreadBase {
     possibleResponses: string[],
     selectableResponseType: PollMaximumResponses,
     maximumSelectableResponses: number = 1,
-  ): Promise<void> {
+  ): Promise<ThreadID> {
     await this.clickPollTab();
     await this.enterThreadTitle(title);
     await this.editor.enterMessage(message);
@@ -167,6 +182,8 @@ export class PostPollThread extends PostThreadBase {
     await this.setPossibleResponses(possibleResponses);
     await this.setMaximumSelectableResponses(selectableResponseType, maximumSelectableResponses);
     await this.clickPostThread();
+    await this._page.waitForURL('**/index.php?threads/**');
+    return this.getThreadID();
   }
 
   async clickPollTab() {

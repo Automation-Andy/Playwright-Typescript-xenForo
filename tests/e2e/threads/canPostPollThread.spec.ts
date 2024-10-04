@@ -18,18 +18,20 @@ test.afterEach(async ({ api }) => {
   });
 });
 
-test(`Can create a thread`, async ({ ui, threadData }) => {
-  await test.step(`Create a thread`, async () => {
-    await ui.pages.forumView.clickPostThread();
-    threadId = await ui.pages.postDiscussionThread.create(threadData.title, threadData.message);
-  });
+test(`Can post poll thread`, async ({ ui, threadPollData }) => {
+  await test.step(`Create a poll type thread`, async () => {});
+  await ui.pages.forumView.clickPostThread();
+  threadId = await ui.pages.postThread.poll.create(
+    threadPollData.title,
+    threadPollData.message,
+    threadPollData.question,
+    ['short', 'long'],
+    'single',
+  );
 
-  await test.step(`Check thread has been created`, async () => {
+  await test.step(`Check the thread and poll have been created`, async () => {
     expect(threadId, `Expected thread id to be > 0 but received ${threadId}`).toBeGreaterThan(0);
-    await expect(ui.pages.threadView.getHeading()).toHaveText(threadData.title);
-    const threadPost = await ui.pages.threadView.getPostByIndex(1);
-    await expect(threadPost.getMessage()).toHaveText(threadData.message);
-    await expect(threadPost.getPostedBy()).toHaveText(process.env.ADMIN_USER);
-    await expect(threadPost.getUserTitle()).toHaveText('Administrator');
   });
+  await expect(ui.pages.threadView.getHeading()).toHaveText(threadPollData.title);
+  await expect(ui.pages.threadView.getPosts()).toHaveCount(1);
 });
