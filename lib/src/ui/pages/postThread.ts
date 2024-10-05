@@ -72,10 +72,13 @@ export class PostDiscussionThread extends PostThreadBase {
    * @param message - The message content of the thread.
    * @returns A promise that resolves to the ID of the created thread.
    */
-  async create(title: string, message: string): Promise<ThreadID> {
+  async create(title: string, message: string, sticky: boolean): Promise<ThreadID> {
     await this.clickDiscussionTab();
     await this.enterThreadTitle(title);
     await this.editor.enterMessage(message);
+    if (sticky) {
+      await this.threadStatus.clickSticky();
+    }
     await this.clickPostThread();
     await this._page.waitForURL('**/index.php?threads/**');
     return this.getThreadID();
@@ -90,6 +93,8 @@ class ThreadOptions {
   private readonly _locators = {
     chkWatchThisThread: this._page.getByText('Watch this thread'),
     chkAndReceiveEmailNotifications: this._page.getByText('and receive email notifications'),
+    chkUnlocked: this._page.getByText('Unlocked'),
+    chkSticky: this._page.getByText('Sticky', { exact: true }),
   };
   constructor(private readonly _page: Page) {}
 
@@ -103,6 +108,10 @@ class ThreadOptions {
 
   async clickAndReceiveEmailNotifications() {
     await this._locators.chkAndReceiveEmailNotifications.click();
+  }
+
+  async clickSticky() {
+    await this._locators.chkSticky.click();
   }
 }
 

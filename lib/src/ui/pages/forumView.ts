@@ -1,4 +1,5 @@
 import { Locator, Page } from '@playwright/test';
+import { ThreadItem } from '@ui/components/threadItem';
 
 export class ForumView {
   private readonly _locators = {
@@ -23,5 +24,9 @@ export class ForumView {
 
   async clickPostThread() {
     await this._locators.btnPostThread.click();
+  }
+
+  async getThreadByIndex(oneBasedIndex: number): Promise<ThreadItem> {
+    return new ThreadItem(this._page, this.locators.threads.nth(oneBasedIndex - 1));
   }
 }

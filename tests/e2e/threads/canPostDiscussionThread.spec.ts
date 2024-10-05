@@ -21,7 +21,7 @@ test.afterEach(async ({ api }) => {
 test(`Can post discussion thread`, async ({ ui, threadData }) => {
   await test.step(`Create a discussion type thread`, async () => {
     await ui.pages.forumView.clickPostThread();
-    threadId = await ui.pages.postThread.discussion.create(threadData.title, threadData.message);
+    threadId = await ui.pages.postThread.discussion.create(threadData.title, threadData.message, false);
   });
 
   await test.step(`Check thread has been created`, async () => {
