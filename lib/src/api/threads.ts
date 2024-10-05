@@ -6,17 +6,26 @@ export class Threads extends ApiBase {
     super(request, page);
   }
 
-  async create(forumNodeId: number, title: string, message: string): Promise<APIResponse> {
+  async create(
+    parentNodeId: number,
+    title: string,
+    message: string,
+    type: DiscussionType,
+    sticky: boolean,
+  ): Promise<ThreadID> {
     const params = {
-      node_id: forumNodeId,
+      node_id: parentNodeId,
       title: title,
       message: message,
-      discussion_type: DiscussionType.Discussion,
+      discussion_type: type,
+      sticky: sticky,
     };
 
     const response = await this.request('post', 'threads/', params);
     expect(response.status()).toBe(200);
-    return response;
+
+    const data = await response.json();
+    return parseInt(data.thread.thread_id);
   }
 
   async delete(threadId: number, permanentlyDelete = false): Promise<APIResponse> {
@@ -37,3 +46,5 @@ export enum DiscussionType {
   Discussion = 'discussion',
   Poll = 'poll',
 }
+
+type ThreadID = number;

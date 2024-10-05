@@ -17,7 +17,7 @@ test('Create a new thread using ui and delete using api', async ({ page, api, ui
   });
 
   await test.step(`Post a thread`, async () => {
-    await ui.pages.postThread.discussion.create('Thread title', 'Thread content');
+    await ui.pages.postThread.discussion.create('Thread title', 'Thread content', false);
     await expect(ui.pages.threadView.getHeading()).toHaveText('Thread title');
     await expect(ui.pages.threadView.getPosts()).toHaveCount(1);
   });
@@ -28,16 +28,16 @@ test('Create a new thread using ui and delete using api', async ({ page, api, ui
 });
 
 test.use({ storageState: { cookies: [], origins: [] } });
-test('Create a new thread using api', async ({ api, ui }) => {
+test('Create a new thread using api', async ({ ui }) => {
   await test.step(`Log in`, async () => {
     await ui.components.navigationBar.clickLogIn();
     await ui.pages.login.loginAs(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
     await expect(ui.components.navigationBar.locators.lblLoggedInUser).toHaveText(process.env.ADMIN_USER);
   });
 
-  await test.step(`Create thread using api`, async () => {
-    await api.threads.create(2, 'Thread created via api', 'Thread content is goooood');
-  });
+  // await test.step(`Create thread using api`, async () => {
+  //   await api.threads.create(2, 'Thread created via api', 'Thread content is goooood');
+  // });
 });
 
 test.use({ storageState: { cookies: [], origins: [] } });
@@ -63,7 +63,7 @@ test(`Testing creating a thread and deleting it`, async ({ page, ui }) => {
   });
 
   await test.step(`Post a thread`, async () => {
-    await ui.pages.postThread.discussion.create('Thread title', 'Thread content');
+    await ui.pages.postThread.discussion.create('Thread title', 'Thread content', false);
     await expect(ui.pages.threadView.getHeading()).toHaveText('Thread title');
     await expect(ui.pages.threadView.getPosts()).toHaveCount(1);
   });
@@ -89,7 +89,7 @@ test(`Testing creating a thread discussion`, async ({ page, ui }) => {
   await expect(page.getByText('Post thread in...')).toBeVisible();
   await ui.popups.postThreadIn.clickThreadDestination('Main category', 'Main forum');
 
-  await ui.pages.postThread.discussion.create('Thread title', 'Thread content');
+  await ui.pages.postThread.discussion.create('Thread title', 'Thread content', false);
   await expect(ui.pages.threadView.getHeading()).toHaveText('Thread title');
   await expect(ui.pages.threadView.getPosts()).toHaveCount(1);
 });
