@@ -15,7 +15,6 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: [['list'], ['html', { open: 'never' }]],
-  testDir: './tests',
   use: {
     baseURL: process.env.BASE_URL,
     trace: 'on',
@@ -32,7 +31,7 @@ export default defineConfig({
     },
     {
       name: 'chromium',
-
+      testDir: './tests/e2e',
       use: {
         ...devices['Desktop Chrome'],
         storageState: NORMAL_USER_001_STORAGE_STATE,

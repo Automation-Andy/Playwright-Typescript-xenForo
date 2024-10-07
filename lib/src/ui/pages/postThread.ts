@@ -61,7 +61,7 @@ export class PostDiscussionThread extends PostThreadBase {
     super(_page);
     this._locators = {
       ...this._locators,
-      tabDiscussion: _page.getByText('Discussion'),
+      tabDiscussion: _page.locator('.inputTypes-title:has-text("Discussion")'),
     };
   }
 
