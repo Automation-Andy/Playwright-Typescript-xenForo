@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 export class Home {
   private readonly _locators = {
@@ -15,6 +15,19 @@ export class Home {
 
   async goto(): Promise<void> {
     await this._page.goto('./');
+  }
+
+  async waitUntilForumIsPresent(categoryName: string, forumName: string): Promise<void> {
+    await expect(async () => {
+      await this._page.reload();
+      await expect(
+        this._locators.categoryContainers
+          .filter({ has: this._page.getByRole('heading', { name: categoryName }) })
+          .getByRole('link', { name: forumName }),
+      ).toBeVisible();
+    }).toPass({
+      timeout: 10_000,
+    });
   }
 
   async clickForum(categoryName: string, forumName: string) {

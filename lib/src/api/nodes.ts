@@ -6,7 +6,7 @@ export class Nodes extends ApiBase {
     super(request, page);
   }
 
-  async create(parentNodeId: number | null, type: NodeType, title: string, wait = false): Promise<Node> {
+  async create(parentNodeId: number | null, type: NodeType, title: string): Promise<NodeInfo> {
     const params = {
       node_type_id: type.valueOf(),
       'node[title]': title,
@@ -17,8 +17,7 @@ export class Nodes extends ApiBase {
     expect(response.status()).toBe(200);
 
     const data = await response.json();
-    if (wait) await this.waitForUrlStatus(data.node.view_url, 200);
-    return { id: data.node.node_id, url: data.node.view_url };
+    return { id: data.node.node_id, title: title, url: data.node.view_url };
   }
 
   async delete(nodeId: number, deleteChildren: boolean): Promise<APIResponse> {
@@ -32,12 +31,12 @@ export class Nodes extends ApiBase {
     return response;
   }
 
-  async get(nodeId: number): Promise<Node> {
+  async get(nodeId: number): Promise<NodeInfo> {
     const response = await this.request('get', `nodes/${nodeId}`);
     expect(response.status()).toBe(200);
 
     const data = await response.json();
-    return { id: data.node.node_id, url: data.node.view_url };
+    return { id: data.node.node_id, title: data.node.title, url: data.node.view_url };
   }
 }
 
@@ -47,7 +46,8 @@ export enum NodeType {
   Link = 'LinkForum',
 }
 
-export interface Node {
+export interface NodeInfo {
   id: number;
+  title: string;
   url: string;
 }

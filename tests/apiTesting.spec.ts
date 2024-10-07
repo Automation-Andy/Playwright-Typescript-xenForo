@@ -16,7 +16,7 @@ test('Can create forum using api only', async ({ api }) => {
   });
 
   await test.step(`Create a new discussion forum inside the category`, async () => {
-    return await api.nodes.create(category.id, NodeType.Forum, 'Yet another new discussion forum', true);
+    return await api.nodes.create(category.id, NodeType.Forum, 'Yet another new discussion forum');
   });
 });
 

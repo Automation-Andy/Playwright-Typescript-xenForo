@@ -1,29 +1,13 @@
-import { ThreadData, ThreadPollData } from '@interfaces/threadData';
 import { test as base } from '@fixtures/base';
-import { simpleFaker } from '@faker-js/faker';
+import { DataGeneration } from '@data/dataGeneration';
 
 type ThreadFixture = {
-  faker: typeof simpleFaker;
-  threadData: ThreadData;
-  threadPollData: ThreadPollData;
+  dataGeneration: DataGeneration;
 };
 
 export const test = base.extend<ThreadFixture>({
-  faker: async ({}, use) => {
-    await use(simpleFaker);
-  },
-  threadData: {
-    title: simpleFaker.string.alphanumeric({ length: { min: 5, max: 30 } }),
-    message: simpleFaker.string.alphanumeric({ length: { min: 5, max: 100 } }),
-  },
-  threadPollData: {
-    title: simpleFaker.string.alphanumeric({ length: { min: 5, max: 30 } }),
-    message: simpleFaker.string.alphanumeric({ length: { min: 5, max: 100 } }),
-    question: simpleFaker.string.alphanumeric({ length: { min: 5, max: 100 } }),
-    possibleResponses: [
-      (simpleFaker.string.alphanumeric({ length: { min: 5, max: 100 } }),
-      simpleFaker.string.alphanumeric({ length: { min: 5, max: 100 } })),
-    ],
+  dataGeneration: ({}, use) => {
+    use(new DataGeneration());
   },
 });
 

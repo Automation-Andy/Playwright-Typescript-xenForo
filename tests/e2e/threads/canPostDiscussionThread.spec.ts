@@ -18,10 +18,12 @@ test.afterEach(async ({ api }) => {
   });
 });
 
-test(`Can post discussion thread`, async ({ ui, threadData }) => {
-  await test.step(`Create a discussion type thread`, async () => {
+test(`Can post discussion thread`, async ({ ui, dataGeneration }) => {
+  const threadData = await test.step(`Create a discussion type thread`, async () => {
     await ui.pages.forumView.clickPostThread();
+    const threadData = dataGeneration.getThreadData();
     threadId = await ui.pages.postThread.discussion.create(threadData.title, threadData.message, false);
+    return threadData;
   });
 
   await test.step(`Check thread has been created`, async () => {
