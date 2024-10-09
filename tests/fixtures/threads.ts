@@ -2,11 +2,11 @@ import { test as base } from '@fixtures/base';
 import { DataGeneration } from '@data/dataGeneration';
 
 type ThreadFixture = {
-  dataGeneration: DataGeneration;
+  data: DataGeneration;
 };
 
 export const test = base.extend<ThreadFixture>({
-  dataGeneration: ({}, use) => {
+  data: ({}, use) => {
     use(new DataGeneration());
   },
 });

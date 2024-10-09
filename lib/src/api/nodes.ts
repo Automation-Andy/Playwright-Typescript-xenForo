@@ -6,7 +6,21 @@ export class Nodes extends ApiBase {
     super(request, page);
   }
 
-  async create(parentNodeId: number | null, type: NodeType, title: string): Promise<NodeInfo> {
+  async createCategory(title: string): Promise<NodeInfo> {
+    const params = {
+      node_type_id: NodeType.Category.valueOf(),
+      'node[title]': title,
+      'node[parent_node_id]': 0,
+    };
+
+    const response = await this.request('post', 'nodes/', params);
+    expect(response.status()).toBe(200);
+
+    const data = await response.json();
+    return { id: data.node.node_id, title: title, url: data.node.view_url };
+  }
+
+  async createForum(parentNodeId: number | null, type: NodeType, title: string): Promise<NodeInfo> {
     const params = {
       node_type_id: type.valueOf(),
       'node[title]': title,
