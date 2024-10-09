@@ -12,11 +12,11 @@ test('Can get node using api only', async ({ api }) => {
 test.use({ storageState: { cookies: [], origins: [] } });
 test('Can create forum using api only', async ({ api }) => {
   const category = await test.step(`Create a new forum category`, async () => {
-    return await api.nodes.create(0, NodeType.Category, 'New forum category');
+    return await api.nodes.createForum(0, NodeType.Category, 'New forum category');
   });
 
   await test.step(`Create a new discussion forum inside the category`, async () => {
-    return await api.nodes.create(category.id, NodeType.Forum, 'Yet another new discussion forum');
+    return await api.nodes.createForum(category.id, NodeType.Forum, 'Yet another new discussion forum');
   });
 });
 
