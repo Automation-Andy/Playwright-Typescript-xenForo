@@ -1,6 +1,7 @@
 import { simpleFaker } from '@faker-js/faker';
 import { faker } from '@faker-js/faker';
 import { ThreadData, ThreadPollData } from '@interfaces/threadData';
+import { UserData } from '@interfaces/userData';
 
 export class DataGeneration {
   getRandomInt(min: number, max: number): number {
@@ -32,5 +33,12 @@ export class DataGeneration {
         simpleFaker.string.alphanumeric({ length: { min: 5, max: 100 } })),
       ],
     };
+  }
+
+  getRandomUsername(): UserData {
+    const username = `${faker.internet.userName()}.${this.getRandomInt(1000, 10000)}.${this.getRandomInt(1000, 10000)}`;
+    const email = `${username}@example.com`;
+    const password = faker.internet.password();
+    return { username: username, email: email, password: password };
   }
 }

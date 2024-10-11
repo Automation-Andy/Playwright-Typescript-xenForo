@@ -5,8 +5,8 @@ import { ThreadData } from '@interfaces/threadData';
 
 test.use({ storageState: ADMIN_USER_STORAGE_STATE });
 
-let categoryNode: NodeInfo = null;
 const threadsToDelete: number[] = [];
+let categoryNode: NodeInfo = null;
 let stickyThreadData: ThreadData = null;
 let nonStickyThreadData: ThreadData = null;
 
@@ -32,19 +32,14 @@ test.beforeEach(async ({ api, ui, data }) => {
     return threadData;
   });
 
-  nonStickyThreadData =
-    await test.step(`Go back to forum ${forumNode.title} and create the non-sticky thread`, async () => {
-      await ui.components.breadcrumb.clickBreadcrumbItem(forumNode.title);
-      await ui.pages.forumView.clickPostThread();
-      const threadData = data.getThreadData();
-      const nonStickyThreadId = await ui.pages.postThread.discussion.create(
-        threadData.title,
-        threadData.message,
-        false,
-      );
-      threadsToDelete.push(nonStickyThreadId);
-      return threadData;
-    });
+  nonStickyThreadData = await test.step(`Go back to forum and create the non-sticky thread`, async () => {
+    await ui.components.breadcrumb.clickBreadcrumbItem(forumNode.title);
+    await ui.pages.forumView.clickPostThread();
+    const threadData = data.getThreadData();
+    const nonStickyThreadId = await ui.pages.postThread.discussion.create(threadData.title, threadData.message, false);
+    threadsToDelete.push(nonStickyThreadId);
+    return threadData;
+  });
 
   await test.step(`Go back to forum ${forumNode.title} to display created threads`, async () => {
     await ui.components.breadcrumb.clickBreadcrumbItem(forumNode.title);
@@ -52,12 +47,12 @@ test.beforeEach(async ({ api, ui, data }) => {
 });
 
 test.afterEach(async ({ api }) => {
-  await test.step(`Delete the category (which also deletes the forum node and thread)`, async () => {
+  await test.step(`Delete the category (which also deletes the forum node and threads)`, async () => {
     await api.nodes.delete(categoryNode.id, true);
   });
 });
 
-test(`Check sticky thread is first and other is second`, async ({ ui }) => {
+test(`Check sticky thread is top most`, async ({ ui }) => {
   await expect((await ui.pages.forumView.getThreadByIndex(1)).getTitle()).toHaveText(stickyThreadData.title);
   await expect((await ui.pages.forumView.getThreadByIndex(2)).getTitle()).toHaveText(nonStickyThreadData.title);
 });
