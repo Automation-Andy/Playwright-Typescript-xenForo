@@ -39,6 +39,6 @@ export class DataGeneration {
     const username = `${faker.internet.userName()}.${this.getRandomInt(1000, 10000)}.${this.getRandomInt(1000, 10000)}`;
     const email = `${username}@example.com`;
     const password = faker.internet.password();
-    return { username: username, email: email, password: password };
+    return { username: username, email: email, password: password, id: 0 };
   }
 }

@@ -10,9 +10,22 @@ export class Users extends ApiBase {
   }
 
   async createRandomUser(): Promise<UserData> {
-    const params = this._data.getRandomUsername();
+    const user = this._data.getRandomUsername();
+    const params = {
+      username: user.username,
+      email: user.email,
+      password: user.password,
+    };
     const response = await this.request('post', 'users/', params);
     expect(response.status()).toBe(200);
-    return params;
+
+    const data = await response.json();
+    user.id = parseInt(data.user.user_id);
+    return user;
+  }
+
+  async delete(id: number) {
+    const response = await this.request('delete', `users/${id}`);
+    expect(response.status()).toBe(200);
   }
 }
