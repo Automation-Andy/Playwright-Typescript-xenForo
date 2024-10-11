@@ -31,7 +31,7 @@ export default defineConfig({
     },
     {
       name: 'chromium',
-      testDir: './tests/e2e',
+      testDir: './tests',
       use: {
         ...devices['Desktop Chrome'],
         storageState: NORMAL_USER_001_STORAGE_STATE,
