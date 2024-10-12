@@ -7,7 +7,7 @@ export class Search {
     txtSearch: this._container.getByPlaceholder('Search…'),
     chkSearchTitlesOnly: this._container.getByText('Search titles only'),
     txtByMember: this._container.getByPlaceholder('Member'),
-    btnSearch: this._container.getByRole('button', { name: 'Search' }),
+    btnSearch: this._container.getByRole('button', { name: 'Search', exact: true }),
     btnAdvancedSearch: this._container.getByRole('link', { name: 'Advanced search…' }),
   };
 

@@ -21,7 +21,7 @@ test.afterEach(async ({ api }) => {
 test(`Can post poll thread`, async ({ ui, data }) => {
   await test.step(`Create a poll type thread`, async () => {});
   await ui.pages.forumView.clickPostThread();
-  const threadPollData = data.getThreadPollData();
+  const threadPollData = data.getThreadPollData(false);
   threadId = await ui.pages.postThread.poll.create(
     threadPollData.title,
     threadPollData.message,

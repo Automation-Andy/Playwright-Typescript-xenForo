@@ -19,4 +19,8 @@ export class SearchResults {
   getResultRows(): Locator {
     return this._locators.resultRows;
   }
+
+  async clickResultByTitle(title: string): Promise<void> {
+    await this._locators.resultRows.getByText(title).click();
+  }
 }
