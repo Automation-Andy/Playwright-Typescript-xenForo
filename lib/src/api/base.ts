@@ -9,11 +9,13 @@ export abstract class ApiBase {
   async request(
     method: 'get' | 'post' | 'patch' | 'put' | 'delete',
     endpoint: string,
+    params = null,
     body = null,
   ): Promise<APIResponse> {
     return await this._request[method](`api/${endpoint}`, {
-      headers: { 'XF-Api-Key': process.env.ADMIN_API_KEY },
-      params: body,
+      headers: { 'XF-Api-Key': process.env.ADMIN_API_KEY, 'content-type': 'application/json' },
+      params: params,
+      data: body,
     });
   }
 

@@ -17,7 +17,7 @@ test('Create a new thread using ui and delete using api', async ({ page, api, ui
   });
 
   await test.step(`Post a thread`, async () => {
-    await ui.pages.postThread.discussion.create('Thread title', 'Thread content', false);
+    await ui.pages.postThread.discussion.create({ title: 'Thread title', message: 'message content', id: 0 }, false);
     await expect(ui.pages.threadView.getHeading()).toHaveText('Thread title');
     await expect(ui.pages.threadView.getPosts()).toHaveCount(1);
   });
@@ -63,7 +63,7 @@ test(`Testing creating a thread and deleting it`, async ({ page, ui }) => {
   });
 
   await test.step(`Post a thread`, async () => {
-    await ui.pages.postThread.discussion.create('Thread title', 'Thread content', false);
+    await ui.pages.postThread.discussion.create({ title: 'Thread title', message: 'message content', id: 0 }, false);
     await expect(ui.pages.threadView.getHeading()).toHaveText('Thread title');
     await expect(ui.pages.threadView.getPosts()).toHaveCount(1);
   });
@@ -89,7 +89,7 @@ test(`Testing creating a thread discussion`, async ({ page, ui }) => {
   await expect(page.getByText('Post thread in...')).toBeVisible();
   await ui.popups.postThreadIn.clickThreadDestination('Main category', 'Main forum');
 
-  await ui.pages.postThread.discussion.create('Thread title', 'Thread content', false);
+  await ui.pages.postThread.discussion.create({ title: 'Thread title', message: 'message content', id: 0 }, false);
   await expect(ui.pages.threadView.getHeading()).toHaveText('Thread title');
   await expect(ui.pages.threadView.getPosts()).toHaveCount(1);
 });

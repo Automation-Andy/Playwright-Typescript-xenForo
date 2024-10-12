@@ -5,7 +5,6 @@ import * as path from 'path';
 dotenv.config();
 
 export const ADMIN_USER_STORAGE_STATE = path.join(__dirname, '/.auth/admin.json');
-export const NORMAL_USER_001_STORAGE_STATE = path.join(__dirname, '/.auth/normalUser001.json');
 
 export default defineConfig({
   fullyParallel: true,
@@ -34,7 +33,7 @@ export default defineConfig({
       testDir: './tests',
       use: {
         ...devices['Desktop Chrome'],
-        storageState: NORMAL_USER_001_STORAGE_STATE,
+        storageState: ADMIN_USER_STORAGE_STATE,
       },
       dependencies: ['setup'],
     },

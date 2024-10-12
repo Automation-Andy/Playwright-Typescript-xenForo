@@ -1,4 +1,5 @@
 import { StringHelpers } from '@helpers/string';
+import { ThreadData } from '@interfaces/threadData';
 import { Locator, Page } from '@playwright/test';
 import { Editor } from '@ui/components/editor';
 
@@ -65,15 +66,15 @@ export class PostDiscussionThread extends PostThreadBase {
     };
   }
 
-  async create(title: string, message: string, sticky: boolean): Promise<ThreadID> {
-    await this.enterThreadTitle(title);
-    await this.editor.enterMessage(message);
-    if (sticky) {
-      await this.threadStatus.clickSticky();
-    }
+  async create(data: ThreadData, sticky: boolean): Promise<ThreadData> {
+    await this.enterThreadTitle(data.title);
+    await this.editor.enterMessage(data.message);
+    if (sticky) await this.threadStatus.clickSticky();
+
     await this.clickPostThread();
     await this._page.waitForURL('**/index.php?threads/**');
-    return this.getThreadID();
+    data.id = await this.getThreadID();
+    return data;
   }
 
   async clickDiscussionTab() {
