@@ -66,10 +66,10 @@ export class PostDiscussionThread extends PostThreadBase {
     };
   }
 
-  async create(data: ThreadData, sticky: boolean): Promise<ThreadData> {
+  async create(data: ThreadData): Promise<ThreadData> {
     await this.enterThreadTitle(data.title);
     await this.editor.enterMessage(data.message);
-    if (sticky) await this.threadStatus.clickSticky();
+    if (data.sticky) await this.threadStatus.clickSticky();
 
     await this.clickPostThread();
     await this._page.waitForURL('**/index.php?threads/**');

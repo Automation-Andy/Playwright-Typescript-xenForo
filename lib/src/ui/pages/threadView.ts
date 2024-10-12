@@ -7,6 +7,7 @@ export class ThreadView {
   readonly locators = {
     heading: this._page.locator(`.p-title`).getByRole('heading'),
     posts: this._page.locator('.message--post'),
+    moreOptions: this._page.getByRole('button', { name: '•••' }),
   };
 
   private readonly _poll = new Poll(this._page);
@@ -31,5 +32,10 @@ export class ThreadView {
 
   get poll(): Poll {
     return this._poll;
+  }
+
+  async clickMoreOptions(menuItem: string) {
+    await this.locators.moreOptions.click();
+    await this._page.locator(`.menu.is-active`).getByRole('link', { name: menuItem, exact: true }).click();
   }
 }

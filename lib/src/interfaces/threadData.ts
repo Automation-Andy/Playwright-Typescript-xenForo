@@ -1,6 +1,10 @@
+import { ThreadType } from '@api/threads';
+
 export interface ThreadData {
   title: string;
   message: string;
+  type: ThreadType;
+  sticky: boolean;
   id: number;
 }
 

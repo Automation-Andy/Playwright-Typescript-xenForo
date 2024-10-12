@@ -33,7 +33,7 @@ test.beforeEach(async ({ api, ui, scripts, data }) => {
   stickyThreadData = await test.step(`Create the sticky thread`, async () => {
     await ui.pages.home.clickForum(categoryNode.title, forumNode.title);
     await ui.pages.forumView.clickPostThread();
-    const threadData = await ui.pages.postThread.discussion.create(data.getThreadData(), true);
+    const threadData = await ui.pages.postThread.discussion.create(data.getThreadData(true));
     threadsToDelete.push(threadData.id);
     return threadData;
   });
@@ -41,7 +41,7 @@ test.beforeEach(async ({ api, ui, scripts, data }) => {
   nonStickyThreadData = await test.step(`Go back to forum and create the non-sticky thread`, async () => {
     await ui.components.breadcrumb.clickBreadcrumbItem(forumNode.title);
     await ui.pages.forumView.clickPostThread();
-    const threadData = await ui.pages.postThread.discussion.create(data.getThreadData(), false);
+    const threadData = await ui.pages.postThread.discussion.create(data.getThreadData(false));
     threadsToDelete.push(threadData.id);
     return threadData;
   });
