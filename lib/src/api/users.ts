@@ -34,10 +34,11 @@ export class Users extends ApiBase {
       password: user.password,
     };
 
-    const body: { secondary_group_ids: number[] } = { secondary_group_ids: [UserGroups.AutomationUsers] };
-    const bodyString = JSON.stringify(body);
+    const body = {
+      secondary_group_ids: [UserGroups.AutomationUsers],
+    };
 
-    const response = await this.request('post', 'users/', params, bodyString);
+    const response = await this.request('post', 'users/', params, body);
     expect(response.status()).toBe(200);
 
     const data = await response.json();

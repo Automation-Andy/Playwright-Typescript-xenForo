@@ -1,27 +1,19 @@
 import { ApiBase } from '@api/base';
-import { ThreadData } from '@interfaces/threadData';
 import { APIRequestContext, APIResponse, expect, Page } from '@playwright/test';
+import { APIThreadData } from './interfaces/threadData';
 
 export class Threads extends ApiBase {
   constructor(request: APIRequestContext, page: Page) {
     super(request, page);
   }
 
-  async create(parentNodeId: number, threadData: ThreadData): Promise<ThreadData> {
-    const params = {
-      node_id: parentNodeId,
-      title: threadData.title,
-      message: threadData.message,
-      discussion_type: threadData.type,
-      sticky: threadData.sticky,
-    };
-
+  async create(params: APIThreadData): Promise<APIThreadData> {
     const response = await this.request('post', 'threads/', params);
     expect(response.status()).toBe(200);
 
     const data = await response.json();
-    threadData.id = parseInt(data.thread.thread_id);
-    return threadData;
+    params.id = parseInt(data.thread.thread_id);
+    return params;
   }
 
   async delete(threadId: number, permanentlyDelete = false): Promise<APIResponse> {
