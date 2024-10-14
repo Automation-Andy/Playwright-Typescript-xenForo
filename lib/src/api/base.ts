@@ -1,4 +1,5 @@
 import { APIRequestContext, APIResponse, expect, Page } from '@playwright/test';
+import { RequestBody } from './interfaces/threadData';
 
 export abstract class ApiBase {
   constructor(
@@ -10,12 +11,15 @@ export abstract class ApiBase {
     method: 'get' | 'post' | 'patch' | 'put' | 'delete',
     endpoint: string,
     params = null,
-    body = null,
+    body?: RequestBody,
   ): Promise<APIResponse> {
+    let bodyData = null;
+    if (params) bodyData = JSON.stringify(body);
+
     return await this._request[method](`api/${endpoint}`, {
       headers: { 'XF-Api-Key': process.env.ADMIN_API_KEY, 'content-type': 'application/json' },
       params: params,
-      data: body,
+      data: bodyData,
     });
   }
 

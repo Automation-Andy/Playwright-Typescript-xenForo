@@ -1,16 +1,15 @@
 import { expect, test } from '@fixtures/threads';
-import { ThreadData } from '@interfaces/threadData';
 import { UserData } from '@interfaces/userData';
+import { ThreadData } from '@ui/interfaces/threadData';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
 let testUser: UserData = null;
 let threadData: ThreadData = null;
 
-test.beforeEach(async ({ api, ui, scripts, data }) => {
+test.beforeEach(async ({ api, ui, scripts }) => {
   threadData = await test.step(`As admin, use api to create a thread in existing forum`, async () => {
-    const threadData = data.getThreadData(false);
-    return await api.threads.create(2, threadData);
+    return await api.threads.create(api.data.randomThreadData(2, false, false));
   });
 
   testUser = await test.step(`Create a new user for the test and log in`, async () => {

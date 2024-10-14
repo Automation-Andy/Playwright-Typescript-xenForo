@@ -1,5 +1,5 @@
 import { StringHelpers } from '@helpers/string';
-import { ThreadData } from '@interfaces/threadData';
+import { ThreadData } from '@ui/interfaces/threadData';
 import { Locator, Page } from '@playwright/test';
 import { Editor } from '@ui/components/editor';
 

@@ -1,5 +1,5 @@
 import { expect, test } from '@fixtures/threads';
-import { ThreadData } from '@interfaces/threadData';
+import { ThreadData } from '@ui/interfaces/threadData';
 import { UserData } from '@interfaces/userData';
 
 let threadData: ThreadData = null;

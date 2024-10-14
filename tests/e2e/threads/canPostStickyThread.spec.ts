@@ -1,6 +1,6 @@
 import { expect, test } from '@fixtures/threads';
 import { NodeInfo, NodeType } from '@api/nodes';
-import { ThreadData } from '@interfaces/threadData';
+import { ThreadData } from '@ui/interfaces/threadData';
 import { UserData } from '@interfaces/userData';
 
 test.use({ storageState: { cookies: [], origins: [] } });

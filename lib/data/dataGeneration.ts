@@ -1,7 +1,7 @@
 import { ThreadType } from '@api/threads';
 import { simpleFaker } from '@faker-js/faker';
 import { faker } from '@faker-js/faker';
-import { ThreadData, ThreadPollData } from '@interfaces/threadData';
+import { ThreadData, ThreadPollData } from '@ui/interfaces/threadData';
 import { UserData } from '@interfaces/userData';
 
 export class DataGeneration {
