@@ -15,6 +15,6 @@ test.afterEach(async ({ api }) => {
   if (threadData) await api.threads.delete(threadData.id, true);
 });
 
-test(`Can unlock a locked thread`, async ({}) => {
+test(`Can unlock a locked thread`, { tag: ['@e2e', '@thread'] }, async ({}) => {
   console.log('do something');
 });

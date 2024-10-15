@@ -38,7 +38,7 @@ test.afterEach(async ({ api }) => {
   });
 });
 
-test(`Can user with lock permissions lock a thread`, async ({ page, ui }) => {
+test(`Can user with lock permissions lock a thread`, { tag: ['@e2e', '@thread'] }, async ({ page, ui }) => {
   await test.step(`As user ${testUser.username}, lock the thread ${threadData.title}`, async () => {
     await ui.pages.threadView.clickMoreOptions('Lock thread');
   });

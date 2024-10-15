@@ -18,7 +18,7 @@ test.afterEach(async ({ api }) => {
   });
 });
 
-test(`Can post poll thread`, async ({ ui, data }) => {
+test(`Can post poll thread`, { tag: ['@e2e', '@thread'] }, async ({ ui, data }) => {
   await test.step(`Create a poll type thread`, async () => {});
   await ui.pages.forumView.clickPostThread();
   const threadPollData = data.getThreadPollData(false);
