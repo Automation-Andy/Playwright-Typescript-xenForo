@@ -31,7 +31,7 @@ test.afterEach(async ({ api }) => {
   });
 });
 
-test(`Can post discussion thread`, async ({ ui, data }) => {
+test(`Can post discussion thread`, { tag: ['@e2e', '@thread'] }, async ({ ui, data }) => {
   threadData = await test.step(`Create a discussion type thread`, async () => {
     await ui.pages.forumView.clickPostThread();
     return await ui.pages.postThread.discussion.create(data.getThreadData(false));

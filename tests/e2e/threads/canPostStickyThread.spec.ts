@@ -58,7 +58,7 @@ test.afterEach(async ({ api }) => {
   });
 });
 
-test(`Check sticky thread is top most`, async ({ ui }) => {
+test(`Check sticky thread is top most`, { tag: ['@e2e', '@thread'] }, async ({ ui }) => {
   await expect((await ui.pages.forumView.getThreadByIndex(1)).getTitle()).toHaveText(stickyThreadData.title);
   await expect((await ui.pages.forumView.getThreadByIndex(2)).getTitle()).toHaveText(nonStickyThreadData.title);
 });
