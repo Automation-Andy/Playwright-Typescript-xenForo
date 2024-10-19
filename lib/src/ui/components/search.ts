@@ -17,7 +17,7 @@ export class Search {
     return this._locators;
   }
 
-  async performSearch(searchText: string, titlesOnly?: boolean, byMember?: string): Promise<void> {
+  async performSearch(searchText: string, titlesOnly: boolean, byMember: string) {
     await this._locators.txtSearch.fill(searchText);
     if (titlesOnly !== undefined) await this.setSearchTitlesOnly(titlesOnly);
     if (byMember !== undefined) await this.enterByMember(byMember);
@@ -25,19 +25,19 @@ export class Search {
     await this._locators.btnSearch.click();
   }
 
-  async enterKeyword(keyword: string): Promise<void> {
+  async enterKeyword(keyword: string) {
     await this._locators.txtSearch.fill(keyword);
   }
 
-  async setSearchTitlesOnly(checked: boolean): Promise<void> {
+  async setSearchTitlesOnly(checked: boolean) {
     await this._locators.chkSearchTitlesOnly.setChecked(checked);
   }
 
-  async enterByMember(member: string): Promise<void> {
+  async enterByMember(member: string) {
     await this._locators.txtByMember.fill(member);
   }
 
-  async clickAdvancedSearch(): Promise<void> {
+  async clickAdvancedSearch() {
     await this._locators.btnAdvancedSearch.click();
   }
 }

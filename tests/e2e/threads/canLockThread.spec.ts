@@ -1,20 +1,20 @@
+import { APIThreadData } from '@api/interfaces/threadData';
 import { expect, test } from '@fixtures/threads';
 import { UserData } from '@interfaces/userData';
-import { ThreadData } from '@ui/interfaces/threadData';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
 let testUser: UserData = null;
-let threadData: ThreadData = null;
+let threadData: APIThreadData = null;
 
 test.beforeEach(async ({ api, ui, scripts }) => {
   threadData = await test.step(`As admin, use api to create a thread in existing forum`, async () => {
-    return await api.threads.create(api.data.randomThreadData(2, false, false));
+    return await api.threads.create(api.data.randomThreadData(2));
   });
 
   testUser = await test.step(`Create a new user for the test and log in`, async () => {
     const testUser = await api.users.createAutomationGroupUser();
-    await scripts.userScripts.loginAs(testUser.username, testUser.password);
+    await scripts.user.loginAs(testUser.username, testUser.password);
     return testUser;
   });
 
@@ -44,8 +44,8 @@ test(`Can user with lock permissions lock a thread`, { tag: ['@e2e', '@thread'] 
   });
 
   await test.step(`Check the thread was successfully locked`, async () => {
-    await expect(page.getByText('Your changes have been saved.')).toBeVisible();
+    await expect(ui.components.flashMessage.getMessage()).toHaveText('Your changes have been saved.');
     await page.reload();
-    await expect(page.getByText('Not open for further replies.').first()).toBeVisible();
+    await expect(ui.pages.threadView.locators.statusMessages).toHaveText('Not open for further replies.');
   });
 });

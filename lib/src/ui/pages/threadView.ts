@@ -8,6 +8,7 @@ export class ThreadView {
     heading: this._page.locator(`.p-title`).getByRole('heading'),
     posts: this._page.locator('.message--post'),
     moreOptions: this._page.getByRole('button', { name: '•••' }),
+    statusMessages: this._page.locator('.blockStatus-message').first(),
   };
 
   private readonly _poll = new Poll(this._page);

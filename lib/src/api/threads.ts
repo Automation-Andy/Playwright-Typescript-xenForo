@@ -1,14 +1,15 @@
 import { ApiBase } from '@api/base';
-import { APIRequestContext, APIResponse, expect, Page } from '@playwright/test';
+import { APIRequestContext, APIResponse, expect } from '@playwright/test';
 import { APIThreadData } from './interfaces/threadData';
+import { RequestOptions } from 'https';
 
 export class Threads extends ApiBase {
-  constructor(request: APIRequestContext, page: Page) {
-    super(request, page);
+  constructor(request: APIRequestContext) {
+    super(request);
   }
 
-  async create(params: APIThreadData): Promise<APIThreadData> {
-    const response = await this.request('post', 'threads/', params);
+  async create(params: APIThreadData, body?: RequestOptions): Promise<APIThreadData> {
+    const response = await this.request('post', 'threads/', params, body);
     expect(response.status()).toBe(200);
 
     const data = await response.json();
