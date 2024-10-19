@@ -9,8 +9,8 @@ export class Api {
     private readonly _request: APIRequestContext,
     private readonly _page: Page,
   ) {}
-  threads = new Threads(this._request, this._page);
-  nodes = new Nodes(this._request, this._page);
-  users = new Users(this._request, this._page);
+  threads = new Threads(this._request);
+  nodes = new Nodes(this._request);
+  users = new Users(this._request);
   data = new Data();
 }

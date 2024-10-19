@@ -14,7 +14,7 @@ let nonStickyThreadData: ThreadData = null;
 test.beforeEach(async ({ api, ui, scripts, data }) => {
   testUser = await test.step(`Create a new user for the test and log in`, async () => {
     const testUser = await api.users.createAutomationGroupUser();
-    await scripts.userScripts.loginAs(testUser.username, testUser.password);
+    await scripts.user.loginAs(testUser.username, testUser.password);
     return testUser;
   });
 

@@ -1,4 +1,4 @@
-import { APIRequestContext, expect, Page } from '@playwright/test';
+import { APIRequestContext, expect } from '@playwright/test';
 import { ApiBase } from '@api/base';
 import { DataGeneration } from '@data/dataGeneration';
 import { UserData } from '@interfaces/userData';
@@ -6,8 +6,8 @@ import { UserGroups } from '@globals/*';
 
 export class Users extends ApiBase {
   private readonly _data = new DataGeneration();
-  constructor(request: APIRequestContext, page: Page) {
-    super(request, page);
+  constructor(request: APIRequestContext) {
+    super(request);
   }
 
   async createRandomUser(): Promise<UserData> {

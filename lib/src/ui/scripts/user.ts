@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { UI } from '@ui/ui';
 
-export class UserScripts {
+export class User {
   constructor(private readonly _ui: UI) {}
 
   async loginAs(userName: string, password: string) {

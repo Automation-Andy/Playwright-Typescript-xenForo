@@ -8,6 +8,7 @@ import { Editor } from '@ui/components/editor';
 import { InlineModerationBar } from '@ui/components/inlineModerationBar';
 import { Breadcrumb } from '@ui/components/breadcrumb';
 import { InlineModerationTop } from '@ui/components/inlineModerationTop';
+import { FlashMessage } from '@ui/components/flashMessage';
 
 export class Components {
   constructor(private readonly page: Page) {}
@@ -21,4 +22,5 @@ export class Components {
   inlineModerationTop = new InlineModerationTop(this.page);
   inlineModerationBar = new InlineModerationBar(this.page);
   breadcrumb = new Breadcrumb(this.page);
+  flashMessage = new FlashMessage(this.page);
 }

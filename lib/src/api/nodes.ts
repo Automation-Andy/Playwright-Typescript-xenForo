@@ -1,9 +1,9 @@
-import { APIRequestContext, APIResponse, expect, Page } from '@playwright/test';
+import { APIRequestContext, APIResponse, expect } from '@playwright/test';
 import { ApiBase } from '@api/base';
 
 export class Nodes extends ApiBase {
-  constructor(request: APIRequestContext, page: Page) {
-    super(request, page);
+  constructor(request: APIRequestContext) {
+    super(request);
   }
 
   async createCategory(title: string): Promise<NodeInfo> {
